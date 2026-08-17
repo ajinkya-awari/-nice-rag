@@ -10,7 +10,7 @@ The runtime is being built incrementally with synthetic offline fixtures first. 
 
 ## Current milestone
 
-The repository currently contains an import-safe protocol scaffold, an approved dependency manifest, and deterministic offline tests. The manifest is recorded for later environment setup and has not been installed or resolved in this milestone.
+The repository currently contains an import-safe protocol scaffold, a synthetic ingestion contract that preserves guideline/page provenance, an approved dependency manifest, and deterministic offline tests. The manifest is recorded for later environment setup and has not been installed or resolved in these milestones.
 
 Run the local checks from this directory:
 
