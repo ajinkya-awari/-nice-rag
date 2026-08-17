@@ -1,6 +1,6 @@
 # NICE-RAG status
 
-**Last verified:** 2026-08-18 · **Branch:** `main` · **HEAD:** `9b9406f`
+**Last verified:** 2026-08-18 · **Branch:** `main` · **HEAD:** `00ba60b`
 
 This is the public runtime status page. The shared portfolio workspace also contains a planning-layer `PROJECT_STATUS.md`; this runtime copy is self-contained for GitHub readers. Historical implementation plans are preserved as evidence; this file is the current done/remaining/next-action summary.
 
