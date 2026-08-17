@@ -2,6 +2,8 @@
 
 This runbook is for a later, explicitly authorized Kaggle or Google Colab session. It is intentionally not executed on the local machine. The local repository remains dependency-free and contains no NICE PDFs, model weights, vector store, credentials, patient data, or live traces.
 
+For the current implementation status, read [`STATUS.md`](STATUS.md) first.
+
 ## Upload and workspace boundary
 
 Upload or clone only the reviewed source tree, tests, documentation, and dependency manifest. Do not upload local PDFs, Chroma directories, credentials, patient data, unreviewed traces, or notebook secrets. Keep generated restricted artifacts in the remote notebook's private storage unless a separate release review authorizes their transfer.

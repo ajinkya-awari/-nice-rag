@@ -6,6 +6,8 @@ CPU-friendly, citation-first retrieval research scaffold for five NICE guideline
 
 ## Project status
 
+Read [`STATUS.md`](STATUS.md) for the current done/remaining/next-action summary.
+
 | Area | Status |
 | --- | --- |
 | Import-safe source tree | Complete |
