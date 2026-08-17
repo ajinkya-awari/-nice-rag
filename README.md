@@ -1,26 +1,54 @@
 # NICE-RAG
 
-NICE-RAG is a CPU-friendly research demonstration for retrieving cited passages from five NICE guidelines and composing bounded research responses.
+CPU-friendly, citation-first retrieval research scaffold for five NICE guideline scopes. The repository is intentionally staged: provenance, deterministic tools, privacy boundaries, and synthetic evaluation come before heavyweight or externally gated runtime work.
 
-## Scope
+> Research information only. NICE-RAG is not clinical decision support, a medical device, or a substitute for qualified professional advice.
 
-The approved guideline scope is NG28, CG127, NG17, NG185, and CG191. The project is research information only: it is not clinical decision support, a medical device, or a substitute for qualified professional advice.
+## Project status
 
-The runtime is being built incrementally with synthetic offline fixtures first. NICE PDFs, model weights, Chroma stores, credentials, patient data, and unreviewed traces remain restricted. NICE downloads, Groq calls, cloud transfer, deployment, publication, email, and Git operations are explicit gates.
+| Area | Status |
+| --- | --- |
+| Import-safe source tree | Complete |
+| Synthetic ingestion and cited retrieval | Complete |
+| Offline CPU stress check | Complete |
+| Five canonical fixture scenarios | Complete; live traces gated |
+| NICE PDFs, embeddings, Chroma, and Groq | Deferred to authorized Kaggle/Colab work |
+| Gradio/Hugging Face release | Deferred and separately gated |
 
-## Current milestone
+Approved guideline IDs: `NG28`, `CG127`, `NG17`, `NG185`, and `CG191`.
 
-The repository currently contains an import-safe protocol scaffold, synthetic ingestion that preserves guideline/page provenance, lazy PDF/splitting/vector-store integration contracts, lazy LangChain tool wrappers, cited lexical retrieval capped at three passages, a deterministic interaction fixture, an inline four-variable ReAct prompt, a lazy missing-key agent boundary, exactly five fixture-only canonical scenarios, restricted-path privacy checks, an offline evaluation-plan runner, a synthetic cited-retrieval smoke runner, declarative persistent-Chroma configuration, an approved dependency manifest, and offline tests. The manifest is recorded for later environment setup and has not been installed or resolved in these milestones.
+## What is safe to run locally
 
-Run the local checks from this directory:
+The local checks use only synthetic in-memory fixtures. They do not install packages, access the network, download NICE documents or models, create Chroma, call Groq, or write result traces.
 
 ```text
 python -m compileall src tests
 python -m pytest -q
-python run.py "synthetic NICE scenario"
+python run.py --list-scenarios
+python run.py --cpu-smoke --documents 1000 --repeats 1
 ```
 
-Storage-heavy and externally gated execution is documented in [`REMOTE_EXECUTION.md`](REMOTE_EXECUTION.md) for a later Kaggle or Colab session. That runbook is not executed locally.
+The CPU smoke mode exercises tagging, chunking, lexical retrieval, citation formatting, and the three-passage cap over synthetic documents. Its workload is bounded by `src/offline_cpu.py` and remains memory-only.
+
+## Repository map
+
+```text
+src/                 import-safe runtime contracts and offline logic
+tests/               dependency-free protocol, privacy, and synthetic tests
+data/                empty boundary for restricted remote inputs
+results/             empty boundary for reviewed outputs
+run.py               local CLI for offline checks
+requirements.txt     pinned environment for later remote setup
+REMOTE_EXECUTION.md  Kaggle/Colab-only gated runbook
+```
+
+## External execution boundary
+
+Storage-heavy work is documented in [`REMOTE_EXECUTION.md`](REMOTE_EXECUTION.md) for a later Kaggle or Google Colab session. Do not place PDFs, model caches, Chroma databases, credentials, patient data, or unreviewed traces in this repository. Do not run the remote stages locally.
+
+## Contributing
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the local-first workflow and verification checklist. New behavior should have synthetic tests first and preserve guideline/page provenance.
 
 ## Attribution
 
