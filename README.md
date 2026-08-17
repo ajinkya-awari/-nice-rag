@@ -20,6 +20,8 @@ python -m pytest -q
 python run.py "synthetic NICE scenario"
 ```
 
+Storage-heavy and externally gated execution is documented in [`REMOTE_EXECUTION.md`](REMOTE_EXECUTION.md) for a later Kaggle or Colab session. That runbook is not executed locally.
+
 ## Attribution
 
 Approved public NICE-derived material must include attribution under the NICE Open Government Licence (OGL). This repository currently contains no NICE source PDFs or downloaded guideline content.
