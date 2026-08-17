@@ -75,3 +75,22 @@ def drug_interaction_lookup(first: str, second: str) -> str:
     if interaction is None:
         return "No synthetic interaction fixture found for the supplied pair."
     return interaction
+
+
+def build_langchain_tools(documents: Iterable[SyntheticDocument]) -> list[object]:
+    """Create LangChain wrappers lazily around the deterministic string tools."""
+    from langchain_core.tools import tool
+
+    bound_documents = tuple(documents)
+
+    @tool
+    def retrieve_guideline(query: str) -> str:
+        """Retrieve at most three cited passages from the bound document set."""
+        return retrieve_cited(query, bound_documents)
+
+    @tool
+    def check_drug_interaction(first: str, second: str) -> str:
+        """Return a deterministic interaction-fixture string."""
+        return drug_interaction_lookup(first, second)
+
+    return [retrieve_guideline, check_drug_interaction]
