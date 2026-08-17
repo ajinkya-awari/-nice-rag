@@ -10,7 +10,7 @@ The runtime is being built incrementally with synthetic offline fixtures first. 
 
 ## Current milestone
 
-The repository currently contains an import-safe protocol scaffold, synthetic ingestion that preserves guideline/page provenance, cited lexical retrieval capped at three passages, a deterministic interaction fixture, an inline four-variable ReAct prompt, a lazy missing-key agent boundary, exactly five fixture-only canonical scenarios, restricted-path privacy checks, an offline evaluation-plan runner, a synthetic cited-retrieval smoke runner, declarative persistent-Chroma configuration, an approved dependency manifest, and offline tests. The manifest is recorded for later environment setup and has not been installed or resolved in these milestones.
+The repository currently contains an import-safe protocol scaffold, synthetic ingestion that preserves guideline/page provenance, lazy PDF/splitting/vector-store integration contracts, cited lexical retrieval capped at three passages, a deterministic interaction fixture, an inline four-variable ReAct prompt, a lazy missing-key agent boundary, exactly five fixture-only canonical scenarios, restricted-path privacy checks, an offline evaluation-plan runner, a synthetic cited-retrieval smoke runner, declarative persistent-Chroma configuration, an approved dependency manifest, and offline tests. The manifest is recorded for later environment setup and has not been installed or resolved in these milestones.
 
 Run the local checks from this directory:
 
