@@ -1,43 +1,36 @@
-# Remote execution runbook
+# Remote execution boundary
 
-This runbook is for a later, explicitly authorized Kaggle or Google Colab session. It is intentionally not executed on the local machine. The local repository remains dependency-free and contains no NICE PDFs, model weights, vector store, credentials, patient data, or live traces.
+NICE-RAG uses a private Kaggle kernel for one current purpose: reproduce the provider-free synthetic checks in a clean Python environment. The notebook clones only the reviewed public source revision and attaches no datasets, models, kernels, competitions, secrets, or patient data.
 
-For the current implementation status, read [`STATUS.md`](STATUS.md) first.
+## Current authorized stage
 
-## Upload and workspace boundary
+Run [`notebooks/kaggle_nice_rag.ipynb`](notebooks/kaggle_nice_rag.ipynb) through the private CPU kernel described in the [Kaggle runbook](notebooks/KAGGLE_RUNBOOK_nice_rag.md). The notebook:
 
-Upload or clone only the reviewed source tree, tests, documentation, and dependency manifest. Do not upload local PDFs, Chroma directories, credentials, patient data, unreviewed traces, or notebook secrets. Keep generated restricted artifacts in the remote notebook's private storage unless a separate release review authorizes their transfer.
+1. records Python, platform, input, and GPU visibility;
+2. clones the existing NICE-RAG repository and records its revision;
+3. installs `requirements.txt` inside Kaggle;
+4. runs `compileall` and the complete synthetic pytest suite;
+5. runs the 1,000-document CPU smoke and five-scenario listing;
+6. scans for restricted artifacts and writes a sanitized evidence JSON file.
 
-## Gated notebook sequence
+Every command is fail-closed. A Kaggle `COMPLETE` status is accepted only after the downloaded evidence file is inspected.
 
-Run the following stages only after their corresponding authorization has been granted.
+## Closed external gates
 
-1. Clone the approved repository in Kaggle or Colab and enter `nice-rag`.
+The synthetic kernel does not:
 
-   ```bash
-   git clone https://github.com/ajinkya-awari/-nice-rag.git nice-rag
-   cd nice-rag
-   ```
+- acquire or read NICE PDFs;
+- download an embedding model;
+- build or load Chroma;
+- read provider credentials or call Groq;
+- process patient or private clinical data;
+- generate live clinical answers or traces;
+- upload to Hugging Face, deploy, publish, or email.
 
-2. Install the pinned environment in the remote notebook only. This is intentionally not run locally.
+Each stage above needs a separate current approval, provenance and privacy review, and its own fail-closed evidence plan.
 
-   ```bash
-   python -m pip install -r requirements.txt
-   ```
+## Release boundary
 
-3. Acquire only the approved NICE guideline documents: NG28, CG127, NG17, NG185, and CG191. Place reviewed files in the restricted remote path `data/pdfs/`, preserving filenames that identify their guideline IDs. Do not invent URLs or use an unapproved mirror; the source acquisition procedure and authorization must be recorded before this stage.
+Public source may include code, tests, synthetic fixtures, the unexecuted notebook/runbook, and sanitized evidence summaries. It must exclude raw documents, models, caches, vector stores, credentials, patient data, private traces, private Kaggle outputs, and internal planning controls.
 
-4. Build the local remote vector store with the configured `sentence-transformers/all-MiniLM-L6-v2` embedding model and `data/chroma_db` persistence directory. Confirm that the remote runtime has enough storage before downloading dependencies or model weights. Do not copy this store back to the local machine.
-
-5. Add `GROQ_API_KEY` as a notebook secret, never in a file or notebook cell. Invoke the gated agent only after the key and source-data gates are approved. Run exactly the five canonical scenarios from `src/scenarios.py`; preserve guideline/page citations and retain actual traces only in the approved private remote location. Never fabricate answers, citations, or traces.
-
-## Release gate
-
-Before any transfer, deployment, or publication, verify all of the following:
-
-- NICE Open Government Licence attribution and the research-only disclaimer are present.
-- No raw PDFs, model caches, Chroma database, secrets, patient data, or unreviewed traces are in release files.
-- Exactly five actual qualitative scenario traces exist, one per canonical scenario, with no unsupported clinical or accuracy claims.
-- Any Hugging Face upload or Gradio deployment has separate explicit authorization.
-
-Until those gates are approved, the only authorized next action is to run the existing offline checks locally and select Kaggle or Colab for the later remote execution.
+NICE-derived material requires the applicable Open Government Licence attribution and a source-rights review before redistribution. The repository currently contains no NICE source text. No software license has been approved, so the absence of a `LICENSE` file remains an explicit reuse limitation.

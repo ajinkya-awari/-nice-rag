@@ -6,6 +6,9 @@ venv/
 .env
 .env.*
 
+# Jupyter notebook checkpoints (not restricted content; just auto-saves)
+.ipynb_checkpoints/
+
 # Restricted source and generated vector-store artifacts.
 data/pdfs/*
 data/chroma_db/*

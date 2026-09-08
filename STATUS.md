@@ -1,30 +1,124 @@
 # NICE-RAG status
 
-**Last verified:** 2026-08-18 · **Branch:** `main` · verify the exact synchronized commit with `git log -1`.
+## 2026-09-08 audit and reconciliation
 
-This is the public runtime status page. The shared portfolio workspace also contains a planning-layer `PROJECT_STATUS.md`; this runtime copy is self-contained for GitHub readers. Historical implementation plans are preserved as evidence; this file is the current done/remaining/next-action summary.
+**Audit date:** 2026-09-08
 
-## Done
+**Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `PARTIAL`
 
-- Import-safe source tree, pinned manifest, local CLI, synthetic fixtures, and offline tests.
-- Provenance-safe tagging/splitting, cited retrieval, deterministic interaction fixture, lazy runtime contracts, and privacy checks.
-- Exactly five fixture-only scenarios covering NG28, CG127, NG17, NG185, and CG191.
-- CPU-only synthetic stress mode: 10,000 documents, 32,000 chunks, 10 queries, valid citations, and a three-passage cap.
-- GitHub README, contribution guide, issue templates, PR template, and remote-only execution runbook.
+**Portfolio readiness:** **74%** (implementation is separate from execution; this is not a scientific-performance score.)
 
-## Verification
+**Confidence:** High for source inventory, Git state, and the newly executed local synthetic checks; medium for release readiness while the private Kaggle gate and final public synchronization remain pending.
 
-```text
-python -m pytest -q                         # 46 passed
-python -m compileall src tests               # exit 0
-python run.py --cpu-smoke --documents 10000 --repeats 2
-# all_citations_valid=True; no files or external services used
-```
+### Dimension score
 
-## Remaining gates
+| Dimension | Score | Evidence basis |
+| --- | ---: | --- |
+| Implementation | 90% | Eleven source modules, CLI, bounded synthetic retrieval, provenance/citation contracts, privacy helpers, scenarios, CPU harness, fail-closed Kaggle notebook, and release checks are implemented. NICE/model/Chroma/Groq/Gradio stages remain gated or absent. |
+| Tests and validation | 95% | `python -m pytest -q` passed all 69 collected tests on 2026-09-08, including notebook and public-release contracts. No live-data or provider test exists. |
+| Runtime/execution evidence | 50% | Fresh compile, complete synthetic suite, five-scenario listing, and 1,000-document CPU smoke succeeded locally. Kaggle and all external stages are not yet freshly verified. |
+| Reproducibility and provenance | 75% | Exact commands, timestamps, revision boundary, pins, guideline/page contracts, private notebook, and runbook exist. There is no resolved lockfile or executed NICE/model provenance. |
+| Release readiness | 45% | README, local accessible visual, contribution guide, scans, and existing public repository exist. Final export, Kaggle evidence, synchronization, and an approved software license are pending. |
+| **Weighted overall** | **74%** | `90×0.30 + 95×0.20 + 50×0.20 + 75×0.15 + 45×0.15 = 74.0%`. |
 
-NICE PDFs, dependency/model downloads, Chroma creation, Groq calls, live traces, patient data, Gradio/Hugging Face deployment, publication, and email are not done. They require an explicitly authorized Kaggle or Google Colab session and must not run locally.
+### Implemented
 
-## Next action
+- Import-safe source in `src/`, local CLI in `run.py`, synthetic fixtures, bounded CPU smoke, and 69 offline contract tests.
+- Tag-before-split ingestion, retained `guideline_id` and `page` metadata, deterministic lexical ordering, a maximum of three cited passages, and `[GUIDELINE_ID, p.PAGE]` formatting.
+- Missing-key handling, lazy optional dependency imports, privacy-path classification, five `gated_no_live_trace` scenarios, and a local prompt contract.
+- An unattended, fail-closed private Kaggle notebook; its presence is implementation evidence, not execution evidence.
+- Public README presentation, Mermaid fallback, and a repository-hosted accessible SVG with reduced-motion behavior.
 
-Choose Kaggle or Colab and authorize the remote stages separately. Follow [`REMOTE_EXECUTION.md`](REMOTE_EXECUTION.md). Until then, the local implementation is complete and the five scenarios remain `gated_no_live_trace`.
+### Actually executed
+
+All commands below ran from the nested repository on 2026-09-08; timestamps are UTC and the evidence is the captured command output for this reconciliation session.
+
+| Started (UTC) | Command | Exit | Exact result |
+| --- | --- | ---: | --- |
+| 09:57:01 | `python -m compileall src tests` | 0 | Source/test traversal completed; new notebook/release tests compiled. |
+| 14:37:40 | `python -m pytest -q` | 0 | `69 passed in 0.85s`. |
+| 09:57:07 | `python run.py --list-scenarios` | 0 | Five approved scenarios, each `gated_no_live_trace`. |
+| 09:57:09 | `python run.py --cpu-smoke --documents 1000 --repeats 1` | 0 | 1,000 documents; 3,200 chunks; five queries/results; `max_passages=3`; `all_citations_valid=True`. |
+
+Structural checks also parsed `notebooks/kaggle_nice_rag.ipynb` as JSON and `assets/retrieval-flow.svg` as XML, both with exit 0. `git diff --check` returned exit 0 with line-ending conversion warnings only.
+
+### Exact evidence paths and dates
+
+- `tests/` and the command outputs above — fresh local synthetic evidence, 2026-09-08.
+- `notebooks/kaggle_nice_rag.ipynb` and `notebooks/KAGGLE_RUNBOOK_nice_rag.md` — implemented remote-validation path, 2026-09-08; not yet remotely executed.
+- `README.md`, `assets/retrieval-flow.svg`, and `tests/test_public_release.py` — public presentation and static release contracts, 2026-09-08.
+- Git revision before synchronization: `b76d39fb28c01b6bb6fea430341c00cbcd15a19b`; current reviewed changes are still in the working tree at this checkpoint.
+- The 2026-08-28 61-test and 10,000-document/32,000-chunk records below are historical only and are superseded for current local status by this addendum.
+
+### Not verified / blockers / release limitations
+
+- No fresh Kaggle kernel output exists yet; the notebook, metadata contract, and runbook do not prove remote execution.
+- NICE PDF acquisition/rights execution, model download, Chroma build/read-back, Groq calls, five live traces, clinical performance, medical safety, patient-data handling, Gradio, Hugging Face, and deployment are not verified.
+- The repository has no approved software `LICENSE`; public visibility does not grant reuse rights.
+- Final private-output inspection, public-export scan, GitHub synchronization, and profile decision remain pending.
+- No dataset, model, patient/private data, provider/API, GPU, heavy local CPU, deployment, publication, email, commit, or push occurred during the local audit checkpoint above.
+
+### Exact next task
+
+Publish the reviewed provider-free notebook and local evidence to the existing repository so the private Kaggle kernel can clone the exact revision; then run only the bounded synthetic Kaggle gate and inspect its downloaded JSON evidence. Do not cross into NICE, model, Chroma, Groq, patient-data, live-trace, or deployment stages.
+
+**Kaggle/GPU/heavy work required now:** Kaggle CPU execution is required for the next evidence gate. GPU and heavy CPU work are not required. External source/model/provider work remains separately gated.
+
+---
+
+## Historical 2026-08-30 reconciliation snapshot
+
+**Audit date:** 2026-08-30
+**Current status:** `PARTIAL` / `IMPLEMENTED-UNVERIFIED`
+**Portfolio readiness:** **55%** (implementation is not execution; this is not a scientific-performance score.)
+**Confidence:** High for repository inventory and documented historical evidence; medium for current executable behavior because Python/pytest execution was intentionally not run in this audit.
+
+This is the public runtime status page. The planning-layer `PROJECT_STATUS.md` and `HANDOVER.md` contain the fuller audit trail. NICE-RAG is research information only; it is not clinical decision support, a medical device, or a substitute for qualified professional advice.
+
+## Dimension score
+
+| Dimension | Score | Evidence basis |
+| --- | ---: | --- |
+| Implementation | 80% | 11 `src/*.py` modules, CLI, requirements manifest, synthetic contracts, lazy PDF/Chroma/agent declarations, and 14 test files are present. The Gradio/`hf_space` runtime is absent and production integrations are not executed. |
+| Tests and validation | 70% | Historical records report 61 passing tests and 15 edge-case tests; test files are present. No test command was run during this audit. |
+| Runtime/execution evidence | 35% | Historical records report local compile, pytest, CLI scenario listing, and synthetic CPU smoke output. No live NICE, dependency, embedding, Chroma, Groq, or Gradio execution evidence exists. |
+| Reproducibility and provenance | 50% | Five guideline IDs, pins, contracts, runbook, notebook, and Git revision are recorded. There is no dependency lock/hash record or executed source/model provenance. |
+| Release readiness | 15% | README, attribution/disclaimer text, templates, and remote runbook exist. Source licensing review, live traces, sanitized release artifacts, deployment, and synchronization of current working-tree changes are incomplete. |
+| **Weighted overall** | **55%** | `80×0.30 + 70×0.20 + 35×0.20 + 50×0.15 + 15×0.15 = 55.25%`, rounded to 55%. |
+
+## Implemented
+
+- Import-safe local source boundary in `src/`, the CLI in `run.py`, and the approved dependency manifest.
+- Synthetic document tagging before splitting, page metadata preservation, bounded lexical cited retrieval, deterministic interaction lookup, exact four-variable prompt, missing-key agent boundary, five fixture scenarios, privacy helpers, and declarative Chroma configuration.
+- Lazy declarations for PDF loading, LangChain tools, embeddings, Chroma, and Groq; these are contracts, not proof of external compatibility.
+- Offline CPU stress harness, edge-case tests, Kaggle notebook, and remote runbook.
+
+## Actually executed evidence
+
+The following is historical evidence recorded in the repository, not a fresh execution in this audit:
+
+- `nice-rag/STATUS.md` and `NEXT_SESSION_HANDOFF.md` report `python -m pytest -q` → `61 passed` and `python -m compileall src tests` → exit 0 on 2026-08-28.
+- Those records report `python run.py --cpu-smoke --documents 10000 --repeats 2` → 32,000 chunks, 10 cited results, `max_passages=3`, and `all_citations_valid=True` on 2026-08-28.
+- Those records report `python run.py --list-scenarios` → five `gated_no_live_trace` entries and a clean restricted-artifact scan on 2026-08-28.
+- Git history shows `b76d39f` at `origin/main`; the nested working tree additionally has uncommitted `.gitignore`, `README.md`, `STATUS.md`, notebook, runbook, and edge-case-test changes.
+
+## Historical only / not verified in this audit
+
+- Historical milestone counts from 6 through 61 tests, historical red/green TDD runs, historical Git commit/push claims, and historical qualitative statements remain archival evidence.
+- No current Python, pytest, compileall, CLI, notebook, package, or runtime execution was performed on 2026-08-30 because the reconciliation rules prohibited it.
+- The five scenarios are fixture inputs only. Every current plan entry remains `gated_no_live_trace`; there are no live answers, citations, intermediate steps, metrics, or provider traces.
+- The planned packages, MiniLM model, NICE PDFs, Chroma store, Groq model, and Gradio interface have not been verified in an authorized runtime.
+
+## Blockers and release limitations
+
+- Remote environment has not been used to install the pinned dependencies or verify import/version compatibility.
+- NICE source acquisition and rights/licensing provenance are not recorded as executed evidence.
+- Model download, Chroma build/read-back, Groq execution, and five qualitative scenario traces are absent.
+- No `hf_space/app.py` or deployment evidence exists; current GitHub content does not include the uncommitted 2026-08-28 notebook/test/status updates.
+- Raw source files, model caches, vector stores, credentials, patient data, and unreviewed traces must remain out of the repository.
+
+## Exact next task
+
+Run the provider-free synthetic validation in a private, explicitly authorized Kaggle environment: execute notebook cells 2–8 from `notebooks/kaggle_nice_rag.ipynb` following `notebooks/KAGGLE_RUNBOOK_nice_rag.md`; stop immediately on any failure and paste back the Python version, pytest output, CPU smoke output, timestamp, and remaining closed gates. Do not proceed to NICE/model/Groq cells.
+
+**Kaggle/GPU/heavy work required now:** No for this exact synthetic gate; Kaggle is required only because local Python/pytest/package execution is restricted. GPU and hard-CPU work are not required. Later live source/model/provider work is separately gated.
