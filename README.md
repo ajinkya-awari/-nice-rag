@@ -169,9 +169,7 @@ The dependency set is intentionally historical and pinned around LangChain 0.2. 
 
 ## Attribution
 
-Current correction: NICE's UK open content licence explicitly excludes AI use, so attribution or OGL language alone does not authorize NICE-RAG acquisition, indexing, retrieval, or generation. Any future use requires NICE approval/licensing for the exact AI purpose and territory, third-party-rights review, and the attribution required by that licence. The older sentence below is retained as historical wording and is superseded by this correction.
-
-Approved public NICE-derived material must include attribution under the NICE Open Government Licence. This repository contains no NICE PDFs or downloaded guideline text. “NICE” identifies the intended guideline source; it does not imply endorsement.
+This repository contains no NICE PDFs or downloaded guideline text. NICE's UK open content licence explicitly excludes AI use, so attribution or OGL language alone does not authorize NICE-RAG acquisition, indexing, retrieval, or generation. Any future use requires NICE approval/licensing for the exact AI purpose and territory, third-party-rights review, and the attribution required by that licence. “NICE” identifies the intended source and does not imply endorsement.
 
 ## Roadmap
 
