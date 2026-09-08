@@ -33,4 +33,4 @@ Each stage above needs a separate current approval, provenance and privacy revie
 
 Public source may include code, tests, synthetic fixtures, the unexecuted notebook/runbook, and sanitized evidence summaries. It must exclude raw documents, models, caches, vector stores, credentials, patient data, private traces, private Kaggle outputs, and internal planning controls.
 
-NICE-derived material requires the applicable Open Government Licence attribution and a source-rights review before redistribution. The repository currently contains no NICE source text. No software license has been approved, so the absence of a `LICENSE` file remains an explicit reuse limitation.
+The repository currently contains no NICE source text. NICE's UK open content licence explicitly excludes AI use; attribution or OGL language alone is not permission for RAG acquisition or processing. A corrected scope, NICE approval/licensing for the exact AI purpose and territory, third-party-rights review, and complete source provenance are required before any NICE-content stage. No software license has been approved, so the absence of a `LICENSE` file remains an explicit reuse limitation.

@@ -1,5 +1,47 @@
 # NICE-RAG status
 
+## 2026-09-08 source-rights and identity correction
+
+**Audit date:** 2026-09-08
+
+**Current status:** `RUNTIME-VERIFIED` / `PARTIAL` / `BLOCKED`
+
+**Portfolio readiness:** **72%** (implementation is separate from execution; this is not a scientific-performance score.)
+
+**Confidence:** High for the synthetic execution evidence, official NICE identifier/title findings, and current closed source gate; medium for the future corpus because no scope or licence has been approved.
+
+### Dimension score
+
+| Dimension | Score | Evidence basis |
+| --- | ---: | --- |
+| Implementation | 75% | Synthetic provenance/retrieval/citation/privacy/CLI/Kaggle mechanics exist, but four of five fixture topics are attached to the wrong official identifiers. |
+| Tests and validation | 85% | The 69-test local/Kaggle suite passed on 2026-09-08, but it encodes the historical tuple and does not validate official semantic identity or source rights. |
+| Runtime/execution evidence | 70% | Local and private Kaggle synthetic execution is fresh; NICE source, model, Chroma, provider, clinical, and deployment paths remain unexecuted. |
+| Reproducibility and provenance | 65% | Revision, commands, synthetic hashes, and metadata contracts exist; no approved live source register, NICE licence, third-party review, or source hash exists. |
+| Release readiness | 55% | Public code and synthetic evidence are available, but the live scope is unresolved, NICE AI permission is absent, and no software licence exists. |
+| **Weighted overall** | **72%** | `75×0.30 + 85×0.20 + 70×0.20 + 65×0.15 + 55×0.15 = 71.5%`, rounded to 72%. |
+
+### Correction and evidence boundary
+
+- `NG28` correctly identifies *Type 2 diabetes in adults: management*.
+- `CG127` is adult hypertension (replaced by `NG136`), not pregnancy hypertension.
+- `NG17` is adult type 1 diabetes, not the neuropathic pain guideline.
+- `NG185` is acute coronary syndromes, not sepsis.
+- `CG191` is historical adult pneumonia (replaced by `NG250`), not safeguarding adults.
+- NICE's current open-content licence excludes AI use. NICE approval/licensing is required before acquisition or RAG processing; international use may involve fees.
+- The exact official URLs, proposed topic-aligned alternatives, rights route, and required chain of custody are recorded in the private planning packet `SOURCE_RIGHTS_PROVENANCE_APPROVAL.md`.
+- The 2026-09-08 local/export/Kaggle results below remain valid synthetic execution evidence. They are not evidence of correct NICE scope, source rights, clinical validity, or live retrieval.
+
+### Exact next task
+
+Select scope Option A, B, or C in the planning-layer approval packet and, if selecting A or B, decide whether a NICE permission request may be prepared/submitted. That decision does not authorize source acquisition.
+
+**Kaggle/GPU/heavy work required now:** No.
+
+No NICE source, data, model, patient/private information, GPU/heavy CPU, Kaggle, provider/API, deployment, publication, email, commit, or push was used for this correction.
+
+---
+
 ## 2026-09-08 audit and reconciliation
 
 **Audit date:** 2026-09-08

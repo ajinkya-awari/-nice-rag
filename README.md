@@ -13,11 +13,14 @@ Citation-first retrieval contracts for a bounded, CPU-friendly NICE guideline re
 > [!CAUTION]
 > NICE-RAG provides research information only. It is not clinical decision support, a medical device, or a substitute for qualified professional advice.
 
+> [!IMPORTANT]
+> This repository contains no NICE source content. A 2026-09-08 official-source audit found that four historical fixture topics do not match their declared guideline IDs. NICE's open-content licence does not cover AI use; NICE permission/licensing and a corrected scope are required before content acquisition or RAG processing.
+
 ## Research problem
 
 Retrieval demonstrations can look convincing while losing source identity, page provenance, execution bounds, or the distinction between fixture output and live evidence. NICE-RAG makes those boundaries explicit. It preserves guideline and page metadata before splitting, limits retrieval to three passages, formats citations deterministically, and refuses to present synthetic fixtures as medical recommendations or provider evidence.
 
-The current public scope covers five guideline identifiers: `NG28`, `CG127`, `NG17`, `NG185`, and `CG191`.
+The implemented synthetic fixtures use the historical identifier tuple `NG28`, `CG127`, `NG17`, `NG185`, and `CG191`. Only `NG28` currently matches its fixture topic. The other mappings are retained as an implementation record and must not be interpreted as a validated live corpus.
 
 ## Verification status
 
@@ -26,7 +29,8 @@ The current public scope covers five guideline identifiers: `NG28`, `CG127`, `NG
 | Implementation | Implemented | Import-safe source, synthetic fixtures, CLI, privacy helpers, and lazy external contracts |
 | Local suite | `LOCAL-SYNTHETIC-VERIFIED` | 69 tests passed; compile, scenario listing, and bounded CPU smoke exited 0 on 2026-09-08 |
 | Kaggle synthetic gate | `RUNTIME-VERIFIED` | Private CPU kernel version 1 completed on 2026-09-08 against commit `a3ea0ef` |
-| NICE, embeddings, Chroma, Groq | Externally gated | Not run and not implied by synthetic validation |
+| NICE source scope/rights | `BLOCKED` | Four topic/ID mismatches; NICE AI permission/licensing not obtained |
+| Embeddings, Chroma, Groq | Externally gated | Not run and not implied by synthetic validation |
 | Gradio / Hugging Face | Not implemented | Separate design, privacy, and deployment approval required |
 
 “Verified” in this repository means a recorded command and exit code. It does not mean clinical accuracy, medical safety, regulatory readiness, or provider quality.
@@ -128,7 +132,8 @@ Follow [the Kaggle runbook](notebooks/KAGGLE_RUNBOOK_nice_rag.md). The kernel mu
 
 ## Provenance and citation contracts
 
-- Corpus scope is exactly `NG28`, `CG127`, `NG17`, `NG185`, and `CG191`.
+- The historical synthetic tuple is `NG28`, `CG127`, `NG17`, `NG185`, and `CG191`; it is not an approved live corpus.
+- Official NICE review found mismatches for `CG127`, `NG17`, `NG185`, and `CG191`. No identifier/topic correction has been selected or implemented.
 - `guideline_id` is attached before splitting.
 - Page metadata remains attached to every chunk.
 - Retrieval emits strings in `[GUIDELINE_ID, p.PAGE]` format.
@@ -148,6 +153,8 @@ Follow [the Kaggle runbook](notebooks/KAGGLE_RUNBOOK_nice_rag.md). The kernel mu
 ## Limitations
 
 - Synthetic lexical retrieval does not establish performance on NICE documents.
+- Four historical fixture topic/ID mappings are incorrect and remain blocked pending a scope decision.
+- NICE AI permission/licensing has not been obtained; source acquisition and processing are prohibited.
 - Package installation does not verify PDF extraction, embedding quality, Chroma persistence, or Groq behavior.
 - The five scenarios contain no live answers or qualitative provider traces.
 - No Gradio application or Hugging Face deployment is included.
@@ -162,13 +169,16 @@ The dependency set is intentionally historical and pinned around LangChain 0.2. 
 
 ## Attribution
 
+Current correction: NICE's UK open content licence explicitly excludes AI use, so attribution or OGL language alone does not authorize NICE-RAG acquisition, indexing, retrieval, or generation. Any future use requires NICE approval/licensing for the exact AI purpose and territory, third-party-rights review, and the attribution required by that licence. The older sentence below is retained as historical wording and is superseded by this correction.
+
 Approved public NICE-derived material must include attribution under the NICE Open Government Licence. This repository contains no NICE PDFs or downloaded guideline text. “NICE” identifies the intended guideline source; it does not imply endorsement.
 
 ## Roadmap
 
 - [x] Synthetic provenance, retrieval, citation, privacy, CLI, and CPU contracts
 - [x] Fail-closed private Kaggle synthetic-validation workflow
-- [ ] Approved NICE source acquisition and rights/provenance record
+- [ ] User-approved correction of the five guideline/topic scopes
+- [ ] NICE AI permission/licence and approved source-provenance record
 - [ ] Approved embedding download and persistent Chroma build/read-back
 - [ ] Approved Groq execution and five qualitative traces
 - [ ] Gradio implementation, release review, and separately approved deployment
