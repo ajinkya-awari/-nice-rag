@@ -4,22 +4,22 @@
 
 **Audit date:** 2026-09-08
 
-**Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `PARTIAL`
+**Current status:** `RUNTIME-VERIFIED` / `PARTIAL`
 
-**Portfolio readiness:** **74%** (implementation is separate from execution; this is not a scientific-performance score.)
+**Portfolio readiness:** **83%** (implementation is separate from execution; this is not a scientific-performance score.)
 
-**Confidence:** High for source inventory, Git state, and the newly executed local synthetic checks; medium for release readiness while the private Kaggle gate and final public synchronization remain pending.
+**Confidence:** High for source inventory, Git state, local/export synthetic behavior, downloaded private Kaggle evidence, and release scans; medium for unexecuted external integrations.
 
 ### Dimension score
 
 | Dimension | Score | Evidence basis |
 | --- | ---: | --- |
-| Implementation | 90% | Eleven source modules, CLI, bounded synthetic retrieval, provenance/citation contracts, privacy helpers, scenarios, CPU harness, fail-closed Kaggle notebook, and release checks are implemented. NICE/model/Chroma/Groq/Gradio stages remain gated or absent. |
+| Implementation | 85% | Eleven source modules, CLI, bounded synthetic retrieval, provenance/citation contracts, privacy helpers, scenarios, CPU harness, fail-closed Kaggle notebook, and release checks are implemented. NICE/model/Chroma/Groq stages are only lazy contracts, and Gradio is absent. |
 | Tests and validation | 95% | `python -m pytest -q` passed all 69 collected tests on 2026-09-08, including notebook and public-release contracts. No live-data or provider test exists. |
-| Runtime/execution evidence | 50% | Fresh compile, complete synthetic suite, five-scenario listing, and 1,000-document CPU smoke succeeded locally. Kaggle and all external stages are not yet freshly verified. |
-| Reproducibility and provenance | 75% | Exact commands, timestamps, revision boundary, pins, guideline/page contracts, private notebook, and runbook exist. There is no resolved lockfile or executed NICE/model provenance. |
-| Release readiness | 45% | README, local accessible visual, contribution guide, scans, and existing public repository exist. Final export, Kaggle evidence, synchronization, and an approved software license are pending. |
-| **Weighted overall** | **74%** | `90×0.30 + 95×0.20 + 50×0.20 + 75×0.15 + 45×0.15 = 74.0%`. |
+| Runtime/execution evidence | 70% | Fresh local checks and private Kaggle version 1 both verified the provider-free synthetic path. All source/model/provider/clinical/deployment stages remain unexecuted. |
+| Reproducibility and provenance | 90% | Exact commands, timestamps, reviewed revision, pins, guideline/page contracts, notebook/runbook, dependency versions, evidence hash, and an allowlist/hash-checked export exist. There is no resolved lockfile or executed NICE/model provenance. |
+| Release readiness | 75% | Public README, accessible local visual, contribution guide, clean scans, existing public repository, 42-file export, and profile entry exist. An approved software license, live integration evidence, application, and deployment are absent. |
+| **Weighted overall** | **83%** | `85×0.30 + 95×0.20 + 70×0.20 + 90×0.15 + 75×0.15 = 83.25%`, rounded to 83%. |
 
 ### Implemented
 
@@ -35,34 +35,36 @@ All commands below ran from the nested repository on 2026-09-08; timestamps are 
 
 | Started (UTC) | Command | Exit | Exact result |
 | --- | --- | ---: | --- |
-| 09:57:01 | `python -m compileall src tests` | 0 | Source/test traversal completed; new notebook/release tests compiled. |
-| 14:37:40 | `python -m pytest -q` | 0 | `69 passed in 0.85s`. |
-| 09:57:07 | `python run.py --list-scenarios` | 0 | Five approved scenarios, each `gated_no_live_trace`. |
-| 09:57:09 | `python run.py --cpu-smoke --documents 1000 --repeats 1` | 0 | 1,000 documents; 3,200 chunks; five queries/results; `max_passages=3`; `all_citations_valid=True`. |
+| 15:01:28 | `python -m compileall src tests` | 0 | Source/test traversal completed; notebook/release tests compiled. |
+| 15:01:30 | `python -m pytest -q` | 0 | `69 passed in 0.92s`. |
+| 15:01:34 | `python run.py --list-scenarios` | 0 | Five approved scenarios, each `gated_no_live_trace`. |
+| 15:01:36 | `python run.py --cpu-smoke --documents 1000 --repeats 1` | 0 | 1,000 documents; 3,200 chunks; five queries/results; `max_passages=3`; `all_citations_valid=True`. |
 
 Structural checks also parsed `notebooks/kaggle_nice_rag.ipynb` as JSON and `assets/retrieval-flow.svg` as XML, both with exit 0. `git diff --check` returned exit 0 with line-ending conversion warnings only.
+
+Private Kaggle kernel `ajinkya1225/19-nice-rag-validation`, version 1, reached `COMPLETE` at 2026-09-08 14:50:50 UTC. Its evidence timestamp is 14:50:32 UTC and records Python 3.12.13, Linux 6.12.90, no visible GPU (`nvidia-smi` unavailable), all declared dependency versions, source revision `a3ea0ef0e516a3d62b27c4677e6c012691ce4b2e`, compile/pytest exits 0, 69 passes, the same 1,000-document/3,200-chunk smoke, valid citations, five gated scenarios, and no restricted artifacts.
 
 ### Exact evidence paths and dates
 
 - `tests/` and the command outputs above — fresh local synthetic evidence, 2026-09-08.
-- `notebooks/kaggle_nice_rag.ipynb` and `notebooks/KAGGLE_RUNBOOK_nice_rag.md` — implemented remote-validation path, 2026-09-08; not yet remotely executed.
+- `notebooks/kaggle_nice_rag.ipynb` and `notebooks/KAGGLE_RUNBOOK_nice_rag.md` — implemented and remotely executed synthetic-validation path, 2026-09-08.
+- Private downloaded `nice_rag_synthetic_evidence.json` — Kaggle version 1 evidence, 2026-09-08; SHA-256 `3f4d21f1f141f02ab76f206a38582f2323c8421fad6946c22c37310898ba6b47`; deliberately excluded from the public repository.
 - `README.md`, `assets/retrieval-flow.svg`, and `tests/test_public_release.py` — public presentation and static release contracts, 2026-09-08.
 - Git revision before synchronization: `b76d39fb28c01b6bb6fea430341c00cbcd15a19b`; current reviewed changes are still in the working tree at this checkpoint.
 - The 2026-08-28 61-test and 10,000-document/32,000-chunk records below are historical only and are superseded for current local status by this addendum.
 
 ### Not verified / blockers / release limitations
 
-- No fresh Kaggle kernel output exists yet; the notebook, metadata contract, and runbook do not prove remote execution.
 - NICE PDF acquisition/rights execution, model download, Chroma build/read-back, Groq calls, five live traces, clinical performance, medical safety, patient-data handling, Gradio, Hugging Face, and deployment are not verified.
 - The repository has no approved software `LICENSE`; public visibility does not grant reuse rights.
-- Final private-output inspection, public-export scan, GitHub synchronization, and profile decision remain pending.
-- No dataset, model, patient/private data, provider/API, GPU, heavy local CPU, deployment, publication, email, commit, or push occurred during the local audit checkpoint above.
+- The 42-file allowlisted public export passed in-place verification and hash comparison; no private Kaggle output was included.
+- No dataset, model, patient/private data, provider/API, GPU, heavy local CPU, deployment, publication, or email occurred. One normal commit/push synchronized the reviewed provider-free validation at `a3ea0ef`; no force push or history rewrite occurred.
 
 ### Exact next task
 
-Publish the reviewed provider-free notebook and local evidence to the existing repository so the private Kaggle kernel can clone the exact revision; then run only the bounded synthetic Kaggle gate and inspect its downloaded JSON evidence. Do not cross into NICE, model, Chroma, Groq, patient-data, live-trace, or deployment stages.
+Prepare the source-rights and provenance approval packet for the five official NICE guideline scopes without downloading documents. Obtain explicit approval before acquisition; do not cross into model, Chroma, Groq, patient-data, live-trace, or deployment stages.
 
-**Kaggle/GPU/heavy work required now:** Kaggle CPU execution is required for the next evidence gate. GPU and heavy CPU work are not required. External source/model/provider work remains separately gated.
+**Kaggle/GPU/heavy work required now:** No. The private synthetic Kaggle CPU gate is complete. GPU and heavy CPU work are not required; external source/model/provider work remains separately gated.
 
 ---
 

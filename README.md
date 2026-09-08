@@ -25,7 +25,7 @@ The current public scope covers five guideline identifiers: `NG28`, `CG127`, `NG
 | --- | --- | --- |
 | Implementation | Implemented | Import-safe source, synthetic fixtures, CLI, privacy helpers, and lazy external contracts |
 | Local suite | `LOCAL-SYNTHETIC-VERIFIED` | 69 tests passed; compile, scenario listing, and bounded CPU smoke exited 0 on 2026-09-08 |
-| Kaggle synthetic gate | `IMPLEMENTED-UNVERIFIED` | Private CPU notebook is staged; no fresh kernel evidence is claimed yet |
+| Kaggle synthetic gate | `RUNTIME-VERIFIED` | Private CPU kernel version 1 completed on 2026-09-08 against commit `a3ea0ef` |
 | NICE, embeddings, Chroma, Groq | Externally gated | Not run and not implied by synthetic validation |
 | Gradio / Hugging Face | Not implemented | Separate design, privacy, and deployment approval required |
 
@@ -118,11 +118,11 @@ all_citations_valid=True
 
 The ellipsis is illustrative formatting, not stored run evidence. See [STATUS.md](STATUS.md) for exact dated results.
 
-Fresh local evidence from 2026-09-08: `compileall` exit 0; `pytest` exit 0 with 69 passes in 0.85 seconds; five `gated_no_live_trace` scenarios; and a 1,000-document smoke with 3,200 chunks, five cited results, `max_passages=3`, and `all_citations_valid=True`. These are synthetic results only.
+Fresh local evidence from 2026-09-08: `compileall` exit 0; `pytest` exit 0 with 69 passes; five `gated_no_live_trace` scenarios; and a 1,000-document smoke with 3,200 chunks, five cited results, `max_passages=3`, and `all_citations_valid=True`. These are synthetic results only.
 
 ## Private Kaggle validation
 
-The checked-in [notebook](notebooks/kaggle_nice_rag.ipynb) is designed for the private kernel `ajinkya1225/19-nice-rag-validation`. It clones the reviewed public revision, installs the declared packages inside Kaggle, runs the same provider-free checks, and emits `nice_rag_synthetic_evidence.json`.
+The checked-in [notebook](notebooks/kaggle_nice_rag.ipynb) runs in the private kernel `ajinkya1225/19-nice-rag-validation`. Version 1 completed on 2026-09-08 against commit `a3ea0ef`: Python 3.12.13 on Linux, compile exit 0, 69 tests passed, the bounded smoke retained valid citations and a three-passage maximum, five scenarios remained `gated_no_live_trace`, and the restricted-artifact result was empty. The downloaded evidence JSON has SHA-256 `3f4d21f1f141f02ab76f206a38582f2323c8421fad6946c22c37310898ba6b47`.
 
 Follow [the Kaggle runbook](notebooks/KAGGLE_RUNBOOK_nice_rag.md). The kernel must remain private, CPU-only, use no attached datasets or models, and stop after the restricted-artifact scan. A `COMPLETE` kernel status is insufficient without inspecting the downloaded evidence file.
 
@@ -158,7 +158,7 @@ Follow [the Kaggle runbook](notebooks/KAGGLE_RUNBOOK_nice_rag.md). The kernel mu
 
 Use a clean Python 3.11 environment, retain the repository commit hash, and run the four offline commands above without attached data or credentials. For Kaggle, use the checked-in notebook and metadata, then retain the downloaded evidence JSON with its kernel version, timestamp, dependency versions, source revision, exit codes, test count, CPU-smoke fields, scenario count, and restricted-artifact result.
 
-The dependency set is intentionally historical and pinned around LangChain 0.2. Remote validation establishes whether it still resolves in the current Kaggle image; it does not authorize migration to newer APIs.
+The dependency set is intentionally historical and pinned around LangChain 0.2. It resolved in the 2026-09-08 Kaggle image; that installation evidence does not prove the gated PDF, model, vector-store, provider, or interface integrations and does not authorize migration to newer APIs.
 
 ## Attribution
 
