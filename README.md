@@ -14,22 +14,22 @@ Citation-first retrieval contracts for a bounded, CPU-friendly NICE guideline re
 > NICE-RAG provides research information only. It is not clinical decision support, a medical device, or a substitute for qualified professional advice.
 
 > [!IMPORTANT]
-> This repository contains no NICE source content. A 2026-09-08 official-source audit found that four historical fixture topics do not match their declared guideline IDs. NICE's open-content licence does not cover AI use; NICE permission/licensing and a corrected scope are required before content acquisition or RAG processing.
+> This repository contains no NICE source content. The synthetic scope was corrected on 2026-09-09 to the user-approved, topic-aligned identifiers. NICE's open-content licence does not cover AI use; NICE permission/licensing is still required before content acquisition or RAG processing.
 
 ## Research problem
 
 Retrieval demonstrations can look convincing while losing source identity, page provenance, execution bounds, or the distinction between fixture output and live evidence. NICE-RAG makes those boundaries explicit. It preserves guideline and page metadata before splitting, limits retrieval to three passages, formats citations deterministically, and refuses to present synthetic fixtures as medical recommendations or provider evidence.
 
-The implemented synthetic fixtures use the historical identifier tuple `NG28`, `CG127`, `NG17`, `NG185`, and `CG191`. Only `NG28` currently matches its fixture topic. The other mappings are retained as an implementation record and must not be interpreted as a validated live corpus.
+The current synthetic scope is `NG28`, `NG133`, `CG173`, `NG253`, and `NG189`, covering type 2 diabetes, hypertension in pregnancy, neuropathic pain, suspected sepsis in adults, and safeguarding adults in care homes.
 
 ## Verification status
 
 | Layer | Status | Evidence boundary |
 | --- | --- | --- |
 | Implementation | Implemented | Import-safe source, synthetic fixtures, CLI, privacy helpers, and lazy external contracts |
-| Local suite | `LOCAL-SYNTHETIC-VERIFIED` | 69 tests passed; compile, scenario listing, and bounded CPU smoke exited 0 on 2026-09-08 |
-| Kaggle synthetic gate | `RUNTIME-VERIFIED` | Private CPU kernel version 1 completed on 2026-09-08 against commit `a3ea0ef` |
-| NICE source scope/rights | `BLOCKED` | Four topic/ID mismatches; NICE AI permission/licensing not obtained |
+| Local suite | `LOCAL-SYNTHETIC-VERIFIED` | 70 tests passed after the approved scope correction on 2026-09-09 |
+| Kaggle synthetic gate | Historical | Private CPU kernel version 1 completed on 2026-09-08 against old-scope commit `a3ea0ef`; it does not verify the corrected tuple |
+| NICE source scope/rights | `BLOCKED` | Topic/ID scope corrected locally; NICE AI permission/licensing not obtained |
 | Embeddings, Chroma, Groq | Externally gated | Not run and not implied by synthetic validation |
 | Gradio / Hugging Face | Not implemented | Separate design, privacy, and deployment approval required |
 
@@ -122,18 +122,18 @@ all_citations_valid=True
 
 The ellipsis is illustrative formatting, not stored run evidence. See [STATUS.md](STATUS.md) for exact dated results.
 
-Fresh local evidence from 2026-09-08: `compileall` exit 0; `pytest` exit 0 with 69 passes; five `gated_no_live_trace` scenarios; and a 1,000-document smoke with 3,200 chunks, five cited results, `max_passages=3`, and `all_citations_valid=True`. These are synthetic results only.
+Fresh local evidence from 2026-09-09: `compileall` exit 0; `pytest` exit 0 with 70 passes; five corrected `gated_no_live_trace` scenarios; and a 1,000-document smoke with 3,200 chunks, five cited results, `max_passages=3`, and `all_citations_valid=True`. These are synthetic results only.
 
 ## Private Kaggle validation
 
-The checked-in [notebook](notebooks/kaggle_nice_rag.ipynb) runs in the private kernel `ajinkya1225/19-nice-rag-validation`. Version 1 completed on 2026-09-08 against commit `a3ea0ef`: Python 3.12.13 on Linux, compile exit 0, 69 tests passed, the bounded smoke retained valid citations and a three-passage maximum, five scenarios remained `gated_no_live_trace`, and the restricted-artifact result was empty. The downloaded evidence JSON has SHA-256 `3f4d21f1f141f02ab76f206a38582f2323c8421fad6946c22c37310898ba6b47`.
+The checked-in [notebook](notebooks/kaggle_nice_rag.ipynb) runs in the private kernel `ajinkya1225/19-nice-rag-validation`. Version 1 completed on 2026-09-08 against old-scope commit `a3ea0ef`: Python 3.12.13 on Linux, compile exit 0, 69 tests passed, the bounded smoke retained valid citations and a three-passage maximum, five scenarios remained `gated_no_live_trace`, and the restricted-artifact result was empty. The downloaded evidence JSON has SHA-256 `3f4d21f1f141f02ab76f206a38582f2323c8421fad6946c22c37310898ba6b47`. This is historical execution evidence and does not verify the corrected five-scope tuple.
 
 Follow [the Kaggle runbook](notebooks/KAGGLE_RUNBOOK_nice_rag.md). The kernel must remain private, CPU-only, use no attached datasets or models, and stop after the restricted-artifact scan. A `COMPLETE` kernel status is insufficient without inspecting the downloaded evidence file.
 
 ## Provenance and citation contracts
 
-- The historical synthetic tuple is `NG28`, `CG127`, `NG17`, `NG185`, and `CG191`; it is not an approved live corpus.
-- Official NICE review found mismatches for `CG127`, `NG17`, `NG185`, and `CG191`. No identifier/topic correction has been selected or implemented.
+- The approved synthetic tuple is `NG28`, `NG133`, `CG173`, `NG253`, and `NG189`.
+- The tuple is locally synthetic-verified only; it is not an acquired or remotely validated live corpus.
 - `guideline_id` is attached before splitting.
 - Page metadata remains attached to every chunk.
 - Retrieval emits strings in `[GUIDELINE_ID, p.PAGE]` format.
@@ -153,7 +153,7 @@ Follow [the Kaggle runbook](notebooks/KAGGLE_RUNBOOK_nice_rag.md). The kernel mu
 ## Limitations
 
 - Synthetic lexical retrieval does not establish performance on NICE documents.
-- Four historical fixture topic/ID mappings are incorrect and remain blocked pending a scope decision.
+- The corrected five-scope tuple has not been rerun in Kaggle or against NICE content.
 - NICE AI permission/licensing has not been obtained; source acquisition and processing are prohibited.
 - Package installation does not verify PDF extraction, embedding quality, Chroma persistence, or Groq behavior.
 - The five scenarios contain no live answers or qualitative provider traces.
@@ -175,7 +175,7 @@ This repository contains no NICE PDFs or downloaded guideline text. NICE's UK op
 
 - [x] Synthetic provenance, retrieval, citation, privacy, CLI, and CPU contracts
 - [x] Fail-closed private Kaggle synthetic-validation workflow
-- [ ] User-approved correction of the five guideline/topic scopes
+- [x] User-approved correction of the five guideline/topic scopes
 - [ ] NICE AI permission/licence and approved source-provenance record
 - [ ] Approved embedding download and persistent Chroma build/read-back
 - [ ] Approved Groq execution and five qualitative traces

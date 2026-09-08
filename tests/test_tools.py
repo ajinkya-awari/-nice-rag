@@ -18,7 +18,7 @@ def _tagged_documents():
     return [
         tagged
         for document, guideline_id in zip(
-            documents, ("NG28", "CG127", "NG17", "NG185")
+            documents, ("NG28", "NG133", "CG173", "NG253")
         )
         for tagged in tag_documents([document], guideline_id)
     ]
@@ -30,10 +30,10 @@ def test_retrieve_cited_caps_results_and_formats_guideline_page_citations():
     lines = [line for line in result.splitlines() if line]
     assert len(lines) == 3
     assert all(line.startswith("[") and "] " in line for line in lines)
-    assert "[CG127, p.2]" in result
+    assert "[NG133, p.2]" in result
     assert "[NG28, p.1]" in result
-    assert "[NG17, p.3]" in result
-    assert "[NG185, p.4]" not in result
+    assert "[CG173, p.3]" in result
+    assert "[NG253, p.4]" not in result
 
 
 def test_retrieve_cited_handles_empty_query_and_no_matches():

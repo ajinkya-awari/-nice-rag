@@ -21,7 +21,7 @@ EXPECTED_PINS = {
 
 
 def test_protocol_limits_corpus_to_the_five_approved_guidelines():
-    assert protocol.GUIDELINE_IDS == ("NG28", "CG127", "NG17", "NG185", "CG191")
+    assert protocol.GUIDELINE_IDS == ("NG28", "NG133", "CG173", "NG253", "NG189")
 
 
 def test_protocol_preserves_paths_and_citation_contract():
@@ -40,11 +40,15 @@ def test_protocol_declares_exact_react_variables_and_planned_models():
     assert protocol.GROQ_MODEL == "llama-3.1-8b-instant"
 
 
-def test_protocol_includes_safety_and_attribution_text():
+def test_protocol_includes_safety_and_fail_closed_source_rights_text():
     assert "research" in protocol.RESEARCH_DISCLAIMER.lower()
     assert "not for clinical use" in protocol.RESEARCH_DISCLAIMER.lower()
-    assert "NICE" in protocol.NICE_OGL_ATTRIBUTION
-    assert "OGL" in protocol.NICE_OGL_ATTRIBUTION
+    rights_notice = protocol.NICE_OGL_ATTRIBUTION.casefold()
+    assert "nice" in rights_notice
+    assert "ai" in rights_notice
+    assert "approval" in rights_notice
+    assert "licen" in rights_notice
+    assert "third-party" in rights_notice
 
 
 def test_requirements_manifest_contains_only_approved_planning_pins():

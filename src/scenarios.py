@@ -37,40 +37,40 @@ CANONICAL_SCENARIOS = (
         scenario_id="scenario_02",
         guideline_id=GUIDELINE_IDS[1],
         query=(
-            "Synthetic research query: retrieve CG127 guidance about blood-pressure "
+            "Synthetic research query: retrieve NG133 guidance about blood-pressure "
             "assessment in pregnancy."
         ),
-        purpose="Check bounded retrieval for the CG127 synthetic fixture.",
+        purpose="Check bounded retrieval for the NG133 synthetic fixture.",
         status="fixture_only",
     ),
     Scenario(
         scenario_id="scenario_03",
         guideline_id=GUIDELINE_IDS[2],
         query=(
-            "Synthetic research query: retrieve NG17 guidance about neuropathic "
+            "Synthetic research query: retrieve CG173 guidance about neuropathic "
             "pain management options."
         ),
-        purpose="Check bounded retrieval for the NG17 synthetic fixture.",
+        purpose="Check bounded retrieval for the CG173 synthetic fixture.",
         status="fixture_only",
     ),
     Scenario(
         scenario_id="scenario_04",
         guideline_id=GUIDELINE_IDS[3],
         query=(
-            "Synthetic research query: retrieve NG185 guidance about recognising "
+            "Synthetic research query: retrieve NG253 guidance about recognising "
             "possible sepsis and escalation pathways."
         ),
-        purpose="Check bounded retrieval for the NG185 synthetic fixture.",
+        purpose="Check bounded retrieval for the NG253 synthetic fixture.",
         status="fixture_only",
     ),
     Scenario(
         scenario_id="scenario_05",
         guideline_id=GUIDELINE_IDS[4],
         query=(
-            "Synthetic research query: retrieve CG191 guidance about safeguarding "
+            "Synthetic research query: retrieve NG189 guidance about safeguarding "
             "adults concerns and escalation pathways."
         ),
-        purpose="Check bounded retrieval for the CG191 synthetic fixture.",
+        purpose="Check bounded retrieval for the NG189 synthetic fixture.",
         status="fixture_only",
     ),
 )

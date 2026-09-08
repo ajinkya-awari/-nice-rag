@@ -27,7 +27,11 @@ def test_readme_exposes_complete_truthful_release_sections() -> None:
     assert "Kaggle synthetic gate" in readme
     assert any(
         status in readme
-        for status in ("`IMPLEMENTED-UNVERIFIED`", "`RUNTIME-VERIFIED`")
+        for status in (
+            "`IMPLEMENTED-UNVERIFIED`",
+            "`LOCAL-SYNTHETIC-VERIFIED`",
+            "`RUNTIME-VERIFIED`",
+        )
     )
     assert "Externally gated" in readme
     assert "not clinical decision support" in readme

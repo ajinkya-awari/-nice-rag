@@ -20,11 +20,15 @@ def test_restricted_path_detection_covers_sources_caches_credentials_and_traces(
     assert all(restricted_path_reasons(path) for path in restricted)
 
 
-def test_release_text_preserves_disclaimer_and_attribution_contracts():
+def test_release_text_preserves_disclaimer_and_source_rights_contracts():
     assert "research" in RESEARCH_DISCLAIMER.lower()
     assert "not for clinical use" in RESEARCH_DISCLAIMER.lower()
-    assert "NICE" in NICE_OGL_ATTRIBUTION
-    assert "OGL" in NICE_OGL_ATTRIBUTION
+    rights_notice = NICE_OGL_ATTRIBUTION.casefold()
+    assert "nice" in rights_notice
+    assert "ai" in rights_notice
+    assert "approval" in rights_notice
+    assert "licen" in rights_notice
+    assert "third-party" in rights_notice
 
 
 def test_runtime_source_has_no_network_transfer_imports():

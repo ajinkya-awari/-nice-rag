@@ -55,7 +55,7 @@ def _three_tagged_docs():
     ]
     return [
         tagged
-        for doc, gid in zip(base, ("NG28", "CG127", "NG17"))
+        for doc, gid in zip(base, ("NG28", "NG133", "CG173"))
         for tagged in tag_documents([doc], gid)
     ]
 
@@ -97,7 +97,7 @@ def test_split_documents_produces_one_chunk_when_content_fits():
 def test_split_documents_handles_content_exactly_chunk_size():
     exact = SyntheticDocument(
         page_content="0123456789",
-        metadata={"guideline_id": "CG127", "page": 2},
+        metadata={"guideline_id": "NG133", "page": 2},
     )
     chunks = split_documents([exact], chunk_size=10, chunk_overlap=2)
     assert len(chunks) == 1

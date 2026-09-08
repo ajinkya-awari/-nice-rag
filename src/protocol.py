@@ -8,7 +8,7 @@ from pathlib import Path
 from types import MappingProxyType
 
 
-GUIDELINE_IDS = ("NG28", "CG127", "NG17", "NG185", "CG191")
+GUIDELINE_IDS = ("NG28", "NG133", "CG173", "NG253", "NG189")
 
 PDF_DIRECTORY = Path("data/pdfs")
 CHROMA_DIRECTORY = Path("data/chroma_db")
@@ -28,8 +28,9 @@ RESEARCH_DISCLAIMER = (
     "and is not a substitute for qualified professional advice."
 )
 NICE_OGL_ATTRIBUTION = (
-    "NICE guideline-derived material requires attribution under the NICE Open "
-    "Government Licence (OGL) before approved public release."
+    "NICE content must not be used for AI purposes without NICE approval and "
+    "licensing for the exact purpose and territory; apply licence-specific "
+    "attribution and review third-party rights before approved use."
 )
 
 PACKAGE_PINS = MappingProxyType(

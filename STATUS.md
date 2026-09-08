@@ -1,5 +1,50 @@
 # NICE-RAG status
 
+## 2026-09-09 Option A scope correction
+
+**Audit date:** 2026-09-09
+
+**Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `PARTIAL` / `BLOCKED`
+
+**Portfolio readiness:** **80%** (implementation is separate from execution; this is not a scientific-performance score.)
+
+**Confidence:** High for the approved topic/ID mapping, local source/tests, and rights boundary; medium for remote reproducibility because Kaggle version 1 predates this correction; low for unexecuted NICE/model/provider/application stages.
+
+### Dimension score
+
+| Dimension | Score | Evidence basis |
+| --- | ---: | --- |
+| Implementation | 85% | The corrected five-scope protocol, scenarios, fail-closed rights notice, synthetic retrieval/citation/privacy/CLI contracts, and remote harness exist; live external and UI stages remain gated or absent. |
+| Tests and validation | 95% | Focused red-green evidence exists and the corrected suite reached 70 local passes; no live-source/provider/clinical test exists. |
+| Runtime/execution evidence | 70% | The corrected tuple is locally exercised. Private Kaggle version 1 is historical for old-scope revision `a3ea0ef`; all live external stages are unexecuted. |
+| Reproducibility and provenance | 75% | Official source identities, approval record, commands, synthetic contracts, and rights chain-of-custody requirements exist; NICE permission, source hashes, and current-scope remote evidence do not. |
+| Release readiness | 65% | Current public code/docs/export are prepared; NICE and software licences, live integrations, application, interface, and deployment are absent. |
+| **Weighted overall** | **80%** | `85×0.30 + 95×0.20 + 70×0.20 + 75×0.15 + 65×0.15 = 79.5%`, rounded to 80%. |
+
+### Implemented and actually executed
+
+- Approved and implemented tuple: `NG28`, `NG133`, `CG173`, `NG253`, `NG189`.
+- Scenario order/topics remain type 2 diabetes, pregnancy hypertension, neuropathic pain, adult sepsis, and safeguarding adults in care homes.
+- The compatibility symbol `NICE_OGL_ATTRIBUTION` now fails closed on NICE AI approval/licensing, territory, licence attribution, and third-party rights.
+- Scope TDD: RED `2 failed, 6 passed`; GREEN `8 passed`.
+- Rights TDD: RED `2 failed, 7 passed`; GREEN `9 passed`.
+- First complete run: `6 failed, 64 passed` because test-only fixtures retained unsupported historical IDs. Corrected fixture subset: `21 passed`. Corrected complete suite: `70 passed`.
+- Final verification started `2026-09-08T20:45:16Z`: compile exit 0; `70 passed in 0.80s`; five corrected scenarios; 1,000 documents, 3,200 chunks, five cited results, `max_passages=3`, and `all_citations_valid=True`; diff check exit 0 with line-ending warnings only. The 42-file export passed 70 tests in 0.70s and had zero source/hash/restricted/private-path/credential/collaboration-residue findings.
+
+### Historical, unverified, and blocked
+
+- Private Kaggle version 1 and its 69-pass evidence remain historical for old-scope revision `a3ea0ef`. They do not verify this corrected tuple.
+- No NICE permission/licence, source content, acquisition hash, third-party clearance, embedding, Chroma, Groq, live trace, patient-data handling, clinical performance/safety, Gradio/Hugging Face deployment, or software licence is verified.
+- No source content may be acquired until NICE approval/licensing is recorded and a later acquisition action is separately authorized.
+
+### Exact next task
+
+Authorize or decline preparation/submission of a NICE AI permission or syndication application. That action would not authorize content acquisition.
+
+**Kaggle/GPU/heavy work required now:** No.
+
+---
+
 ## 2026-09-08 source-rights and identity correction
 
 **Audit date:** 2026-09-08
