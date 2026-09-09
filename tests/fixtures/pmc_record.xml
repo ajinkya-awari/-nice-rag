@@ -41,7 +41,14 @@
             </sec>
           </body>
           <ack><p>EXCLUDED_ACKNOWLEDGEMENT_TOKEN</p></ack>
-          <ref-list><ref><mixed-citation>EXCLUDED_REFERENCE_TOKEN</mixed-citation></ref></ref-list>
+          <ref-list>
+            <ref>
+              <element-citation>
+                <article-title>EXCLUDED_REFERENCE_ARTICLE_TITLE</article-title>
+              </element-citation>
+              <mixed-citation>EXCLUDED_REFERENCE_TOKEN</mixed-citation>
+            </ref>
+          </ref-list>
         </article>
       </metadata>
     </record>

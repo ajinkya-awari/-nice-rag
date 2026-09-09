@@ -69,6 +69,7 @@ def test_validate_extracts_narrative_with_complete_provenance() -> None:
             "EXCLUDED_MEDIA_TOKEN",
             "EXCLUDED_SUPPLEMENT_TOKEN",
             "EXCLUDED_ACKNOWLEDGEMENT_TOKEN",
+            "EXCLUDED_REFERENCE_ARTICLE_TITLE",
             "EXCLUDED_REFERENCE_TOKEN",
         )
     )

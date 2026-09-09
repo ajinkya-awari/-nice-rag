@@ -85,6 +85,17 @@ def _elements(root: ET.Element, name: str) -> list[ET.Element]:
     return [element for element in root.iter() if _local_name(element.tag) == name]
 
 
+def _children(root: ET.Element, name: str) -> list[ET.Element]:
+    return [child for child in root if _local_name(child.tag) == name]
+
+
+def _required_path(root: ET.Element, names: tuple[str, ...], label: str) -> ET.Element:
+    current = root
+    for name in names:
+        current = _required_single(_children(current, name), label)
+    return current
+
+
 def _required_single(elements: list[ET.Element], label: str) -> ET.Element:
     if len(elements) != 1:
         raise OpenEvidenceError(f"Expected exactly one {label}; found {len(elements)}")
@@ -246,6 +257,9 @@ def validate_and_extract_record(
         code = errors[0].attrib.get("code", "unknown")
         raise OpenEvidenceError(f"OAI error: {code}")
     article = _required_single(_elements(root, "article"), "JATS article")
+    article_meta = _required_path(
+        article, ("front", "article-meta"), "JATS front article metadata"
+    )
     _validate_lifecycle(root, article)
 
     header_identifier = _normalized_text(
@@ -255,7 +269,7 @@ def validate_and_extract_record(
     if header_identifier != expected_identifier:
         raise OpenEvidenceError("OAI PMCID identifier mismatch")
 
-    article_ids = _elements(article, "article-id")
+    article_ids = _children(article_meta, "article-id")
     pmc_values = [
         _normalized_text(element)
         for element in article_ids
@@ -277,13 +291,17 @@ def validate_and_extract_record(
         raise OpenEvidenceError("JATS DOI mismatch")
 
     title = _normalized_text(
-        _required_single(_elements(article, "article-title"), "article title")
+        _required_path(
+            article_meta,
+            ("title-group", "article-title"),
+            "front-matter article title",
+        )
     )
     if title != " ".join(source.title.split()):
         raise OpenEvidenceError("JATS article title mismatch")
 
-    license_uri = _verified_license_uri(article, source)
-    body = _required_single(_elements(article, "body"), "JATS body")
+    license_uri = _verified_license_uri(article_meta, source)
+    body = _required_single(_children(article, "body"), "JATS body")
     source_sha256 = hashlib.sha256(response.body).hexdigest()
     sections = _build_sections(
         body,
