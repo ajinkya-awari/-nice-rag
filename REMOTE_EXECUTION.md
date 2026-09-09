@@ -1,5 +1,13 @@
 # Remote execution boundary
 
+## Open-evidence boundary — 2026-09-09
+
+The PMC benchmark is a separate local CPU/network gate, not a NICE or provider stage. `--list-open-sources` is offline; `--fetch-open-evidence` contacts only the fixed official PMC OAI endpoint; `--validate-open-evidence` is local-only. The approved attempt and single retry ended partial after three validated records, so no further fetch is authorized by the prior gate. Kaggle is not required to resolve this blocker.
+
+Raw PMC XML must remain ignored and private. Only sanitized metadata, hashes, counts, statuses, and citation prefixes may be public. NICE content, models, Chroma, providers, patient data, deployment, and publication remain separate closed gates.
+
+---
+
 NICE-RAG uses a private Kaggle kernel for one current purpose: reproduce the provider-free synthetic checks in a clean Python environment. The notebook clones only the reviewed public source revision and attaches no datasets, models, kernels, competitions, secrets, or patient data.
 
 ## Current authorized stage

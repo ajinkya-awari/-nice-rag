@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-09-09",
+  "status": "PARTIAL",
+  "open_evidence_verified": false,
+  "raw_xml_committed": false,
+  "retrieval_method": "PMC OAI-PMH GetRecord metadataPrefix=pmc",
+  "attempts": [
+    {
+      "started_at_utc": "2026-09-09T12:22:56Z",
+      "ended_at_utc": "2026-09-09T12:22:57Z",
+      "source_revision": "2d1857a",
+      "exit_code": 1,
+      "failed_pmcid": "PMC5256065",
+      "failure_class": "front_matter_title_scope",
+      "records_validated": 0,
+      "records_stored_locally": 0
+    },
+    {
+      "started_at_utc": "2026-09-09T12:26:23Z",
+      "ended_at_utc": "2026-09-09T12:26:28Z",
+      "source_revision": "87d1d92",
+      "exit_code": 1,
+      "failed_pmcid": "PMC4410741",
+      "failure_class": "creative_commons_uri_canonicalization",
+      "records_validated": 3,
+      "records_stored_locally": 3,
+      "validated_sources": [
+        {
+          "pmcid": "PMC5256065",
+          "byte_count": 115899,
+          "sha256": "997108184681d4b4ac1e7af0bdec362e2e1b5ad5f71cf1614b0fde12e251de6b"
+        },
+        {
+          "pmcid": "PMC7886065",
+          "byte_count": 106535,
+          "sha256": "0bd6fbbf6cd12385ef084c02b01e4d719c8ca74602dc8c18cc3759b06d3deafa"
+        },
+        {
+          "pmcid": "PMC10741625",
+          "byte_count": 284029,
+          "sha256": "32c9de979f3fa405cdfed078fd0ca10504afe90eb6d0196d6eacee8f5b5e86f6"
+        }
+      ],
+      "not_stored": [
+        {
+          "pmcid": "PMC4410741",
+          "reason": "validation stopped before storage"
+        },
+        {
+          "pmcid": "PMC9261065",
+          "reason": "not attempted after fail-closed stop"
+        }
+      ]
+    }
+  ],
+  "post_attempt_fix": {
+    "source_revision": "97334a7",
+    "offline_regression": "allowlisted Creative Commons URIs normalize an omitted trailing slash while disallowed licence families remain rejected",
+    "focused_result": "23 passed",
+    "full_result": "137 passed"
+  },
+  "manifest_created": false,
+  "five_query_validation_executed": false,
+  "citation_validity": "not_verified_for_open_evidence",
+  "determinism": "not_verified_for_open_evidence",
+  "retry_limit_exhausted": true,
+  "exact_next_task": "Obtain explicit authorization for one new bounded five-record acquisition from fixed revision 97334a7 or later, then run local validation if acquisition succeeds.",
+  "closed_gates": [
+    "NICE content acquisition",
+    "embedding model download",
+    "Chroma build",
+    "Groq or other provider execution",
+    "patient data",
+    "deployment"
+  ]
+}

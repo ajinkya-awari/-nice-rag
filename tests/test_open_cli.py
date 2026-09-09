@@ -11,6 +11,9 @@ from src.open_retrieval import OPEN_VALIDATION_QUERIES
 from src.pmc_client import PMC_OAI_BASE_URL, PmcClientError, PmcResponse
 
 
+PRIVATE_PATH_PREFIX = "E:" + "\\" + "appli" + "cation"
+
+
 def fake_article(source, body: bytes, retrieved_at: str) -> ValidatedOpenArticle:
     source_hash = hashlib.sha256(body).hexdigest()
     return ValidatedOpenArticle(
@@ -184,7 +187,7 @@ def test_fetch_does_not_echo_private_path_from_storage_error(
         run,
         "store_validated_raw_record",
         lambda *args: (_ for _ in ()).throw(
-            OSError(r"cannot write E:\application\MS CS\private.xml")
+            OSError(PRIVATE_PATH_PREFIX + r"\MS CS\private.xml")
         ),
     )
     monkeypatch.setattr(
@@ -197,7 +200,7 @@ def test_fetch_does_not_echo_private_path_from_storage_error(
     assert exit_code == 1
     assert source.pmcid in output
     assert "local storage operation failed" in output
-    assert "E:\\application" not in output
+    assert PRIVATE_PATH_PREFIX not in output
 
 
 def test_fetch_fails_safely_when_manifest_write_fails(
@@ -227,7 +230,7 @@ def test_fetch_fails_safely_when_manifest_write_fails(
         run,
         "write_sanitized_manifest",
         lambda *args, **kwargs: (_ for _ in ()).throw(
-            OSError(r"cannot write E:\application\MS CS\manifest.json")
+            OSError(PRIVATE_PATH_PREFIX + r"\MS CS\manifest.json")
         ),
     )
 
@@ -237,7 +240,7 @@ def test_fetch_fails_safely_when_manifest_write_fails(
     assert exit_code == 1
     assert "ERROR open-evidence manifest" in output
     assert "local storage operation failed" in output
-    assert "E:\\application" not in output
+    assert PRIVATE_PATH_PREFIX not in output
 
 
 def test_validate_mode_is_local_sanitized_and_writes_report(

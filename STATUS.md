@@ -1,5 +1,38 @@
 # NICE-RAG status
 
+## 2026-09-09 open-evidence reconciliation
+
+**Audit date:** 2026-09-09
+
+**Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `IMPLEMENTED-UNVERIFIED` / `OPEN-EVIDENCE-PARTIAL` / `NICE-CONTENT-BLOCKED`
+
+**Portfolio readiness:** **84%** before current export/GitHub synchronization.
+
+**Dimension scores:** implementation 90%; tests and validation 98%; runtime/execution 75%; reproducibility/provenance 85%; release readiness 65%. Weighted result: `90×0.30 + 98×0.20 + 75×0.20 + 85×0.15 + 65×0.15 = 84.1%`, rounded to **84%**.
+
+**Confidence:** High for code/tests and the three acquired records; medium for complete PMC reproducibility; low for NICE/model/provider/clinical/deployment claims.
+
+### Implemented and actually executed
+
+- Implemented: immutable five-PMC registry; exact-host OAI client; MIME/encoding/size/redirect controls; front-matter identity and rights validation; lifecycle checks; narrative-only extraction; provenance-before-split; atomic no-different-hash storage; isolated three-passage retriever; sanitized reports; three explicit CLI modes.
+- Executed locally: complete safe suite through 139 passes at `2026-09-09T16:01:42Z`–`16:01:48Z`; compile exit 0; five synthetic scenarios; five registry entries; bounded 1,000-document/3,200-chunk synthetic smoke with citation validity true.
+- Executed against PMC: two bounded attempts on 2026-09-09. The first stopped before storage. After a tested title-scope fix, the retry validated and locally stored three sources, stopped before storing `PMC4410741`, and did not attempt `PMC9261065`.
+- Evidence: `evidence/open_evidence_acquisition_attempts.json` and ignored `data/open_evidence/raw/`. Exact revisions, UTC times, bytes, and hashes are in the JSON record.
+
+### Historical only and not verified
+
+- Historical only: private Kaggle version 1 at old revision `a3ea0ef`, with 69 synthetic tests; it does not verify the corrected tuple or PMC path.
+- Not verified: complete PMC manifest, open citation validity/determinism, NICE content/rights, models, Chroma, provider execution, live traces, clinical performance/safety, patient data, interface, deployment, release, or software licence.
+- Release limitation: no raw XML or article prose may enter Git/export; no approved `LICENSE` exists; `OPEN-EVIDENCE-VERIFIED` is not claimed.
+
+### Blocker and exact next task
+
+The configured attempt and single retry are exhausted. **Exactly one next task:** obtain explicit authorization for one new bounded five-record acquisition from fixed revision `97334a7` or later, then run local validation only if all five records acquire successfully.
+
+**Kaggle/GPU/heavy work required:** No.
+
+---
+
 ## 2026-09-09 NICE application preparation
 
 **Audit date:** 2026-09-09

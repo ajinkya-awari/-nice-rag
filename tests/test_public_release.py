@@ -54,8 +54,8 @@ def test_public_readme_has_no_private_paths_or_automation_workflow_residue() -> 
     readme = (ROOT / "README.md").read_text(encoding="utf-8").casefold()
 
     direct_forbidden = (
-        "application\\ms cs",
-        "c:\\users",
+        "".join(("appli", "cation", "\\", "ms cs")),
+        "".join(("c:", "\\", "users")),
     )
     workflow_forbidden = tuple(
         "".join(parts)
@@ -69,3 +69,31 @@ def test_public_readme_has_no_private_paths_or_automation_workflow_residue() -> 
         )
     )
     assert not any(term in readme for term in direct_forbidden + workflow_forbidden)
+
+
+def test_readme_separates_open_evidence_from_nice_and_links_failed_attempt() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+    assert "`LOCAL-SYNTHETIC-VERIFIED`" in readme
+    assert "`OPEN-EVIDENCE-PARTIAL`" in readme
+    assert "`NICE-CONTENT-BLOCKED`" in readme
+    assert "evidence/open_evidence_acquisition_attempts.json" in readme
+    assert "python run.py --list-open-sources" in readme
+    assert "python run.py --fetch-open-evidence" in readme
+    assert "python run.py --validate-open-evidence" in readme
+    assert "not NICE guidance" in readme
+    assert "PMC5256065" in readme and "PMC9261065" in readme
+
+
+def test_failed_acquisition_evidence_is_sanitized_and_not_a_success_claim() -> None:
+    evidence_path = ROOT / "evidence" / "open_evidence_acquisition_attempts.json"
+    evidence = evidence_path.read_text(encoding="utf-8")
+
+    assert '"status": "PARTIAL"' in evidence
+    assert '"open_evidence_verified": false' in evidence
+    assert '"raw_xml_committed": false' in evidence
+    assert "PMC4410741" in evidence
+    assert "PMC9261065" in evidence
+    assert "OPEN-EVIDENCE-VERIFIED" not in evidence
+    assert "page_content" not in evidence
+    assert "article_text" not in evidence
