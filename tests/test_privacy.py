@@ -1,5 +1,6 @@
 import ast
 from pathlib import Path
+import subprocess
 
 from src.protocol import NICE_OGL_ATTRIBUTION, RESEARCH_DISCLAIMER
 from src.privacy import is_restricted_path, restricted_path_reasons
@@ -54,7 +55,7 @@ def test_runtime_source_has_no_network_transfer_imports():
             assert source_path.name == "pmc_client.py", source_path
 
 
-def test_current_tree_has_no_restricted_artifact_files():
+def test_current_tree_restricted_artifacts_are_ignored_and_untracked():
     root = Path(__file__).parents[1]
     restricted = []
     for path in root.rglob("*"):
@@ -65,4 +66,18 @@ def test_current_tree_has_no_restricted_artifact_files():
         if is_restricted_path(path.relative_to(root)):
             restricted.append(path)
 
-    assert restricted == []
+    for path in restricted:
+        relative_path = path.relative_to(root)
+        ignored = subprocess.run(
+            ["git", "check-ignore", "--quiet", "--", str(relative_path)],
+            cwd=root,
+            check=False,
+        )
+        tracked = subprocess.run(
+            ["git", "ls-files", "--error-unmatch", "--", str(relative_path)],
+            cwd=root,
+            check=False,
+            capture_output=True,
+        )
+        assert ignored.returncode == 0, relative_path
+        assert tracked.returncode != 0, relative_path

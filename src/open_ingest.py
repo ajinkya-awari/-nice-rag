@@ -114,6 +114,11 @@ def _normalize_license_uri(value: str) -> str:
     normalized = value.strip()
     if normalized.startswith("http://creativecommons.org/"):
         normalized = "https://" + normalized.removeprefix("http://")
+    canonical_without_slash = {
+        allowed_uri.removesuffix("/"): allowed_uri
+        for allowed_uri in ALLOWED_LICENSE_URIS
+    }
+    normalized = canonical_without_slash.get(normalized, normalized)
     return normalized
 
 

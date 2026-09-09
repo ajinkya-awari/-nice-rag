@@ -90,6 +90,23 @@ def test_validate_extracts_narrative_with_complete_provenance() -> None:
     assert all(section.metadata["corpus"] == "pmc_open_evidence" for section in article.sections)
 
 
+def test_validate_canonicalizes_allowlisted_cc_uri_and_accepts_cc0_companion() -> None:
+    body = fixture_bytes(
+        **{
+            "licenses/by/4.0/": "licenses/by/4.0",
+            "</license>": (
+                '<ext-link xmlns:xlink="http://www.w3.org/1999/xlink" '
+                'xlink:href="https://creativecommons.org/publicdomain/zero/1.0/"/>'
+                "</license>"
+            ),
+        }
+    )
+
+    article = validate_and_extract_record(SOURCE, response(body), RETRIEVED_AT)
+
+    assert article.license_uri == "https://creativecommons.org/licenses/by/4.0/"
+
+
 @pytest.mark.parametrize(
     ("replacements", "message"),
     (
