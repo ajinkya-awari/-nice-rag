@@ -11,15 +11,17 @@ kaggle_nice_rag.ipynb
 kernel-metadata.json
 ```
 
-`kernel-metadata.json` uses the actual notebook filename, keeps the kernel private and CPU-only, enables internet only so the notebook can clone the reviewed public repository and install declared packages, and declares no dataset, competition, model, or kernel sources.
+`kernel-metadata.json` uses the actual notebook filename, keeps the kernel private and CPU-only, enables internet only so the notebook can shallow-clone the reviewed public repository, and declares no dataset, competition, model, or kernel sources.
+
+The notebook checks out its literal `EXPECTED_REVISION`, so it never validates mutable GitHub `HEAD`. The provider-free path uses the existing Kaggle `pytest` installation and records that version; it does not install `requirements.txt` or any provider/model/vector/UI dependency.
 
 ## Unattended cell sequence
 
 | Cell | Gate | Fail-closed behavior |
 | --- | --- | --- |
 | 1 | Scope and closed-gate notice | Markdown only |
-| 2 | Environment, empty inputs, GPU visibility, source clone, revision | Fails if any input is attached or clone/revision fails |
-| 3 | Declared dependency installation and version capture | Fails on a nonzero installer result or missing declared package metadata |
+| 2 | Environment, empty inputs, GPU visibility, source clone, exact revision checkout | Fails if any input is attached or clone/revision checkout fails |
+| 3 | Existing pytest version capture | Fails if pytest is unavailable; never installs the production dependency stack |
 | 4 | `compileall` and complete pytest suite | Fails on any nonzero result or missing pass count |
 | 5 | 1,000-document CPU smoke and five-scenario listing | Fails on invalid citations, more than three passages, or scenario count other than five |
 | 6 | Restricted-artifact scan and evidence write | Fails if a restricted artifact is present |

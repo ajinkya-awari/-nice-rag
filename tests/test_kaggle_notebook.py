@@ -39,6 +39,15 @@ def test_kaggle_notebook_uses_active_approved_repository_clone() -> None:
     )
 
 
+def test_kaggle_notebook_pins_revision_and_avoids_unused_stack_install() -> None:
+    source = "\n".join(_code_sources())
+
+    assert "EXPECTED_REVISION = " in source
+    assert "source revision does not match EXPECTED_REVISION" in source
+    assert "'pip', 'install'" not in source
+    assert "requirements.txt" not in source
+
+
 def test_kaggle_notebook_fails_closed_and_writes_sanitized_evidence() -> None:
     source = "\n".join(_code_sources())
 
@@ -87,4 +96,7 @@ def test_kaggle_notebook_metadata_is_cpu_private_and_internet_enabled() -> None:
 
     assert notebook["nbformat"] == 4
     assert notebook["metadata"]["kernelspec"]["name"] == "python3"
+    cell_ids = [cell.get("id") for cell in notebook["cells"]]
+    assert all(isinstance(cell_id, str) and cell_id for cell_id in cell_ids)
+    assert len(cell_ids) == len(set(cell_ids))
     assert all(cell.get("outputs", []) == [] for cell in notebook["cells"])
