@@ -1,5 +1,23 @@
 # NICE-RAG status
 
+## 2026-09-09 bounded reacquisition addendum
+
+**Audit time:** `2026-09-09T16:25:19Z`-`16:25:38Z`
+
+**Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `IMPLEMENTED-UNVERIFIED` / `OPEN-EVIDENCE-PARTIAL` / `NICE-CONTENT-BLOCKED`
+
+**Portfolio readiness:** **85%**, unchanged. Dimension scores remain implementation 90%, tests 98%, runtime 75%, reproducibility 85%, and release readiness 70%.
+
+The newly authorized pre-network gate passed with compile exit 0, 139 tests, five scenario rows, five fixed source rows, a successful 1,000-document synthetic smoke, and diff exit 0. The one permitted acquisition then exited 1 at `PMC5256065`: the newly validated OAI response had a different hash from the existing ignored raw record, so immutable storage refused to overwrite it. No later record was requested, no stored raw file changed, no manifest was created, and five-query validation was correctly skipped.
+
+Post-attempt verification passed all 139 tests in 2.02s and found zero raw-hash mismatches. The refreshed public export passed 139 tests in 1.69s; its final 53-file scan found zero parity, raw, cache, restricted-extension, symlink, collaboration-residue, private-path, or secret-pattern findings.
+
+**Exactly one next task:** approve or decline an offline-first transactional acquisition design that stages all five validated responses before replacing the persistent corpus. No further PMC request is authorized before that decision and offline verification.
+
+**Kaggle/GPU/heavy work required:** No.
+
+---
+
 ## 2026-09-09 open-evidence reconciliation
 
 **Audit date:** 2026-09-09

@@ -52,6 +52,25 @@
           "reason": "not attempted after fail-closed stop"
         }
       ]
+    },
+    {
+      "started_at_utc": "2026-09-09T16:25:37Z",
+      "ended_at_utc": "2026-09-09T16:25:38Z",
+      "source_revision": "2f59fe7eefe0d2617bed00db336098895f17050d",
+      "exit_code": 1,
+      "failed_pmcid": "PMC5256065",
+      "failure_class": "immutable_raw_hash_conflict",
+      "network_requests_completed": 1,
+      "records_validated_before_storage": 1,
+      "records_stored_locally_this_attempt": 0,
+      "existing_records_preserved": 3,
+      "failure": "The newly validated response differed from the ignored existing PMC5256065 raw-file hash; fail-closed storage refused to overwrite it.",
+      "not_attempted_after_stop": [
+        "PMC7886065",
+        "PMC10741625",
+        "PMC4410741",
+        "PMC9261065"
+      ]
     }
   ],
   "post_attempt_fix": {
@@ -65,7 +84,9 @@
   "citation_validity": "not_verified_for_open_evidence",
   "determinism": "not_verified_for_open_evidence",
   "retry_limit_exhausted": true,
-  "exact_next_task": "Obtain explicit authorization for one new bounded five-record acquisition from fixed revision 97334a7 or later, then run local validation if acquisition succeeds.",
+  "latest_authorized_attempt_exhausted": true,
+  "root_cause": "Acquisition writes each validated response directly to the persistent raw directory, while the no-different-hash invariant rejects changed upstream XML. A complete fresh corpus therefore requires a reviewed transactional staging design rather than an in-place retry.",
+  "exact_next_task": "Approve or decline an offline-first transactional acquisition design that stages and validates all five records before replacing the persistent corpus; do not make another network request until that decision and implementation are complete.",
   "closed_gates": [
     "NICE content acquisition",
     "embedding model download",
