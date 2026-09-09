@@ -9,6 +9,7 @@ def test_restricted_path_detection_covers_sources_caches_credentials_and_traces(
     restricted = [
         Path("data/pdfs/NG28.pdf"),
         Path("data/chroma_db/index.bin"),
+        Path("data/open_evidence/raw/PMC5256065.xml"),
         Path(".env"),
         Path("credentials.json"),
         Path("results/scenario_01.jsonl"),

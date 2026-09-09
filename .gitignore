@@ -12,6 +12,8 @@ venv/
 # Restricted source and generated vector-store artifacts.
 data/pdfs/*
 data/chroma_db/*
+data/open_evidence/raw/
+data/open_evidence/**/*.xml
 results/*.json
 results/*.jsonl
 results/*.txt

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
+  <responseDate>2026-09-09T12:00:00Z</responseDate>
+  <GetRecord>
+    <record>
+      <header>
+        <identifier>oai:pubmedcentral.nih.gov:5256065</identifier>
+        <datestamp>2026-09-01</datestamp>
+      </header>
+      <metadata>
+        <article xmlns:xlink="http://www.w3.org/1999/xlink" article-type="review-article">
+          <front>
+            <article-meta>
+              <article-id pub-id-type="pmcid">PMC5256065</article-id>
+              <article-id pub-id-type="doi">10.3389/fendo.2017.00006</article-id>
+              <title-group>
+                <article-title>Clinical Review of Antidiabetic Drugs: Implications for Type 2 Diabetes Mellitus Management</article-title>
+              </title-group>
+              <permissions>
+                <license license-type="open-access" xlink:href="http://creativecommons.org/licenses/by/4.0/">
+                  <license-p>FICTIONAL_LICENSE_PROSE_NOT_FOR_OUTPUT</license-p>
+                </license>
+              </permissions>
+              <author-notes><email>fictional.author@example.invalid</email></author-notes>
+            </article-meta>
+          </front>
+          <body>
+            <p>FICTIONAL_BODY_OVERVIEW glucose research context.</p>
+            <sec>
+              <title>Fictional methods</title>
+              <p>FICTIONAL_METHODS_TOKEN diabetes glucose cohort description.</p>
+              <fig><caption><p>EXCLUDED_FIGURE_CAPTION_TOKEN</p></caption></fig>
+              <table-wrap><table><tr><td>EXCLUDED_TABLE_TOKEN</td></tr></table></table-wrap>
+              <disp-formula>EXCLUDED_FORMULA_TOKEN</disp-formula>
+              <media>EXCLUDED_MEDIA_TOKEN</media>
+              <sec>
+                <title>Fictional nested analysis</title>
+                <p>FICTIONAL_NESTED_TOKEN glucose analysis detail.</p>
+                <supplementary-material>EXCLUDED_SUPPLEMENT_TOKEN</supplementary-material>
+              </sec>
+            </sec>
+          </body>
+          <ack><p>EXCLUDED_ACKNOWLEDGEMENT_TOKEN</p></ack>
+          <ref-list><ref><mixed-citation>EXCLUDED_REFERENCE_TOKEN</mixed-citation></ref></ref-list>
+        </article>
+      </metadata>
+    </record>
+  </GetRecord>
+</OAI-PMH>
