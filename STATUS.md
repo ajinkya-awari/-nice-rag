@@ -1,5 +1,23 @@
 # NICE-RAG status
 
+## 2026-09-09 NICE application preparation
+
+**Audit date:** 2026-09-09
+
+**Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `PARTIAL` / `BLOCKED`
+
+**Portfolio readiness:** **80%** (unchanged; an unsubmitted application is not runtime, licensing, or release evidence.)
+
+Application preparation and submission are authorized. A five-scope technical description has been prepared, but no form or email was submitted. Required applicant identity, institution/organisation, authority/consent, territory, and cybersecurity facts are not yet verified. NICE permission has not been granted, and source acquisition remains prohibited.
+
+### Exact next task
+
+Provide and verify the applicant-controlled identity, institution, authority, territory, and cybersecurity fields, then submit through NICE's official route without acquiring content.
+
+**Kaggle/GPU/heavy work required now:** No.
+
+---
+
 ## 2026-09-09 Option A scope correction
 
 **Audit date:** 2026-09-09
