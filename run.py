@@ -7,6 +7,7 @@ from collections.abc import Sequence
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 from time import sleep
@@ -15,7 +16,10 @@ from src.evaluation import render_offline_evaluation_plan
 from src.offline_cpu import render_cpu_stress_report, run_cpu_stress_check
 from src.open_ingest import (
     OpenEvidenceError,
+    create_staging_corpus,
     load_local_open_articles,
+    promote_staging_corpus,
+    resolve_promoted_corpus,
     store_validated_raw_record,
     validate_and_extract_record,
     write_sanitized_manifest,
@@ -26,7 +30,7 @@ from src.pmc_client import PmcClientError, fetch_pmc_record
 from src.protocol import RESEARCH_DISCLAIMER
 
 
-RAW_OPEN_EVIDENCE_DIRECTORY = Path("data/open_evidence/raw")
+OPEN_EVIDENCE_ROOT = Path("data/open_evidence")
 OPEN_EVIDENCE_MANIFEST = Path("evidence/open_evidence_manifest.json")
 OPEN_EVIDENCE_VALIDATION = Path("evidence/open_evidence_validation.json")
 
@@ -49,24 +53,40 @@ def _source_revision() -> str:
     return completed.stdout.strip() or "unavailable"
 
 
+def _acquisition_id() -> str:
+    return _utc_now().replace("-", "").replace(":", "")
+
+
 def _safe_error_message(exc: Exception) -> str:
     if isinstance(exc, OSError):
         return "local storage operation failed"
     return str(exc)
 
 
+def _remove_new_transaction_directory(directory: Path) -> None:
+    if directory.is_dir():
+        shutil.rmtree(directory)
+
+
 def _fetch_open_evidence() -> int:
     sources = validate_open_evidence_registry(OPEN_EVIDENCE_SOURCES)
     retrieved_at_utc = _utc_now()
+    acquisition_id = _acquisition_id()
+    try:
+        staging_directory = create_staging_corpus(
+            OPEN_EVIDENCE_ROOT, acquisition_id
+        )
+    except (OpenEvidenceError, OSError, ValueError) as exc:
+        print(f"ERROR open-evidence acquisition: {_safe_error_message(exc)}")
+        return 1
     articles = []
     for index, source in enumerate(sources):
         try:
             response = fetch_pmc_record(source)
             article = validate_and_extract_record(source, response, retrieved_at_utc)
-            store_validated_raw_record(
-                article, response.body, RAW_OPEN_EVIDENCE_DIRECTORY
-            )
+            store_validated_raw_record(article, response.body, staging_directory)
         except (OpenEvidenceError, PmcClientError, OSError, ValueError) as exc:
+            _remove_new_transaction_directory(staging_directory)
             print(f"ERROR {source.pmcid}: {_safe_error_message(exc)}")
             return 1
         articles.append(article)
@@ -77,13 +97,19 @@ def _fetch_open_evidence() -> int:
         if index < len(sources) - 1:
             sleep(0.4)
 
+    promoted_directory: Path | None = None
     try:
+        promoted_directory = promote_staging_corpus(
+            OPEN_EVIDENCE_ROOT, staging_directory, acquisition_id
+        )
         write_sanitized_manifest(
             articles,
             OPEN_EVIDENCE_MANIFEST,
             source_revision=_source_revision(),
+            acquisition_id=acquisition_id,
         )
-    except (OSError, TypeError, ValueError) as exc:
+    except (OpenEvidenceError, OSError, TypeError, ValueError) as exc:
+        _remove_new_transaction_directory(promoted_directory or staging_directory)
         print(f"ERROR open-evidence manifest: {_safe_error_message(exc)}")
         return 1
     print(f"open_evidence_sources={len(articles)} acquisition_status=VALIDATED")
@@ -126,9 +152,13 @@ def _validate_open_evidence() -> int:
         ):
             raise OpenEvidenceError("manifest retrieval timestamps are inconsistent")
         retrieved_at_utc = next(iter(retrieval_times))
+        acquisition_id = manifest.get("acquisition_id")
+        if not isinstance(acquisition_id, str):
+            raise OpenEvidenceError("manifest acquisition identifier is missing")
+        raw_directory = resolve_promoted_corpus(OPEN_EVIDENCE_ROOT, acquisition_id)
         articles = load_local_open_articles(
             OPEN_EVIDENCE_SOURCES,
-            RAW_OPEN_EVIDENCE_DIRECTORY,
+            raw_directory,
             retrieved_at_utc=retrieved_at_utc,
         )
         for article in articles:

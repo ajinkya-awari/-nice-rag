@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import tempfile
 import xml.etree.ElementTree as ET
 
@@ -42,10 +43,95 @@ EXCLUDED_JATS_ELEMENTS = frozenset(
 _RETRACTION_RELATION_TYPES = frozenset(
     {"corrected-article", "expression-of-concern", "retracted-article"}
 )
+_ACQUISITION_ID_PATTERN = re.compile(
+    r"\A\d{8}T\d{6}Z(?:-[a-z0-9]{1,32})?\Z"
+)
 
 
 class OpenEvidenceError(RuntimeError):
     """Raised when source evidence violates identity, rights, or safety rules."""
+
+
+def _validated_acquisition_id(acquisition_id: str) -> str:
+    if not isinstance(acquisition_id, str) or not _ACQUISITION_ID_PATTERN.fullmatch(
+        acquisition_id
+    ):
+        raise OpenEvidenceError("Invalid acquisition identifier")
+    return acquisition_id
+
+
+def _transaction_root(evidence_root: Path, *, create: bool) -> Path:
+    root = Path(evidence_root).absolute()
+    if create:
+        root.mkdir(parents=True, exist_ok=True)
+    if not root.is_dir():
+        raise OpenEvidenceError("Transaction evidence root is missing")
+    if root.is_symlink():
+        raise OpenEvidenceError("Transaction evidence root cannot be a symlink")
+    return root
+
+
+def _transaction_child(root: Path, category: str, acquisition_id: str) -> Path:
+    category_root = root / category
+    if category_root.exists() and category_root.is_symlink():
+        raise OpenEvidenceError("Transaction directory cannot be a symlink")
+    return category_root / acquisition_id
+
+
+def create_staging_corpus(evidence_root: Path, acquisition_id: str) -> Path:
+    """Create a new ignored staging directory for one acquisition transaction."""
+    identifier = _validated_acquisition_id(acquisition_id)
+    root = _transaction_root(evidence_root, create=True)
+    staging = _transaction_child(root, "staging", identifier)
+    if staging.exists():
+        raise OpenEvidenceError("Staging corpus already exists")
+    staging.mkdir(parents=True)
+    return staging
+
+
+def promote_staging_corpus(
+    evidence_root: Path, staging: Path, acquisition_id: str
+) -> Path:
+    """Promote a complete staging corpus without replacing prior evidence."""
+    identifier = _validated_acquisition_id(acquisition_id)
+    root = _transaction_root(evidence_root, create=False)
+    expected_staging = _transaction_child(root, "staging", identifier)
+    if Path(staging) != expected_staging:
+        raise OpenEvidenceError("Staging corpus path does not match acquisition identifier")
+    if expected_staging.is_symlink():
+        raise OpenEvidenceError("Staging corpus cannot be a symlink")
+    promoted = _transaction_child(root, "corpora", identifier)
+    if not expected_staging.is_dir():
+        raise OpenEvidenceError("Staging corpus is missing")
+    try:
+        promoted.mkdir(parents=True)
+    except FileExistsError as exc:
+        raise OpenEvidenceError("Promoted corpus already exists") from exc
+    try:
+        for source_path in sorted(expected_staging.glob("*.xml")):
+            os.link(source_path, promoted / source_path.name)
+    except FileExistsError as exc:
+        raise OpenEvidenceError("Promoted corpus file collision") from exc
+    except OSError as exc:
+        raise OpenEvidenceError("Unable to promote staged corpus") from exc
+    shutil.rmtree(expected_staging)
+    try:
+        expected_staging.parent.rmdir()
+    except OSError:
+        pass
+    return promoted
+
+
+def resolve_promoted_corpus(evidence_root: Path, acquisition_id: str) -> Path:
+    """Resolve only an existing, manifest-selected promoted corpus."""
+    identifier = _validated_acquisition_id(acquisition_id)
+    root = _transaction_root(evidence_root, create=False)
+    promoted = _transaction_child(root, "corpora", identifier)
+    if promoted.is_symlink():
+        raise OpenEvidenceError("Promoted corpus cannot be a symlink")
+    if not promoted.is_dir():
+        raise OpenEvidenceError("Promoted corpus is missing")
+    return promoted
 
 
 @dataclass(frozen=True, slots=True)
@@ -451,12 +537,15 @@ def write_sanitized_manifest(
     path: Path,
     *,
     source_revision: str,
+    acquisition_id: str,
 ) -> None:
     """Write metadata-only acquisition evidence with no extracted prose."""
     article_values = tuple(articles)
+    identifier = _validated_acquisition_id(acquisition_id)
     manifest = {
         "schema_version": 1,
         "source_revision": source_revision,
+        "acquisition_id": identifier,
         "corpus": OPEN_EVIDENCE_CORPUS,
         "retrieval_method": "PMC OAI-PMH GetRecord metadataPrefix=pmc",
         "sources": [
@@ -482,4 +571,21 @@ def write_sanitized_manifest(
     }
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    temporary_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as temporary:
+            temporary.write(json.dumps(manifest, indent=2) + "\n")
+            temporary.flush()
+            os.fsync(temporary.fileno())
+            temporary_path = Path(temporary.name)
+        os.replace(temporary_path, path)
+    finally:
+        if temporary_path is not None and temporary_path.exists():
+            temporary_path.unlink()

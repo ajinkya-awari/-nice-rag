@@ -24,10 +24,15 @@ def restricted_path_reasons(path: str | PathLike[str]) -> tuple[str, ...]:
     for directory in sorted(PROTECTED_DIRECTORIES.intersection(lower_parts)):
         reasons.append(f"protected_directory:{directory}")
     if any(
-        ordered_lower_parts[index : index + 3] == ("data", "open_evidence", "raw")
+        ordered_lower_parts[index : index + 3]
+        in {
+            ("data", "open_evidence", "raw"),
+            ("data", "open_evidence", "staging"),
+            ("data", "open_evidence", "corpora"),
+        }
         for index in range(max(0, len(ordered_lower_parts) - 2))
     ):
-        reasons.append("protected_directory:data/open_evidence/raw")
+        reasons.append("protected_directory:data/open_evidence")
     if lower_name == ".env" or lower_name.startswith(".env."):
         reasons.append("environment_file")
     if lower_name in RESTRICTED_FILENAMES:

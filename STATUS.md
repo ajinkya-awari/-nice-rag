@@ -1,5 +1,23 @@
 # NICE-RAG status
 
+## 2026-09-09 transactional acquisition implementation
+
+**Audit time:** `2026-09-09T17:27:49Z`-`17:27:55Z`
+
+The offline transaction design is implemented and locally verified. New acquisition data stages in an ignored ID-specific directory; only a complete fixed five-record set can promote to an ignored versioned corpus. The sanitized manifest is atomic and binds validation to that promoted corpus. Legacy partial raw evidence is not selected by the new validation path.
+
+Fresh evidence: compile exit 0; **149 tests passed in 2.74s**; five synthetic scenarios; five source rows; 1,000-document/3,200-chunk synthetic smoke with five cited results, a maximum of three passages, and citation validity true. The expected local open-validation command exited 1 because no complete manifest exists. No PMC request was made; the three historical raw hashes are unchanged; staging/corpus paths are ignored, untracked, and scan-clean.
+
+**Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `IMPLEMENTED-UNVERIFIED` / `OPEN-EVIDENCE-PARTIAL` / `NICE-CONTENT-BLOCKED`.
+
+**Portfolio readiness:** **87%**. Implementation 93%; tests 99%; runtime 75%; reproducibility 88%; release readiness 72%; weighted result `86.55%`, rounded to 87%.
+
+**Exactly one next task:** obtain explicit authorization for one bounded five-record PMC acquisition from this transactional revision; run local validation only if the acquisition exits 0.
+
+**Kaggle/GPU/heavy work required:** No.
+
+---
+
 ## 2026-09-09 bounded reacquisition addendum
 
 **Audit time:** `2026-09-09T16:25:19Z`-`16:25:38Z`

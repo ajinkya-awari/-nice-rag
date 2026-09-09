@@ -36,7 +36,7 @@ An isolated open-evidence path targets one fixed PubMed Central article for each
 | Embeddings, Chroma, Groq | Externally gated | Not run and not implied by synthetic validation |
 | Gradio / Hugging Face | Not implemented | Separate design, privacy, and deployment approval required |
 
-Latest bounded acquisition (`2026-09-09T16:25:37Z`) stopped safely at the first record. The newly validated PMC response differed from the existing ignored raw-file hash, so immutable storage refused to overwrite prior evidence. No later record was requested and no five-query validation ran. Readiness remains 85%; transactional staging is the next approval-gated design decision.
+Latest bounded acquisition (`2026-09-09T16:25:37Z`) stopped safely at the first record because a newly validated PMC response differed from an existing ignored raw-file hash. The subsequent offline transaction redesign is locally verified: future fetches stage all records in an ignored ID-specific corpus and promote only a complete five-record set; validation reads only the atomic manifest-selected corpus. No new PMC request or five-query validation has run. Portfolio readiness is 87%; a new bounded acquisition still requires explicit authorization.
 
 “Verified” in this repository means a recorded command and exit code. It does not mean clinical accuracy, medical safety, regulatory readiness, or provider quality.
 

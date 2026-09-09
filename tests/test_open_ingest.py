@@ -5,9 +5,13 @@ from pathlib import Path
 
 import pytest
 
+import src.open_ingest as open_ingest
 from src.open_ingest import (
     OpenEvidenceError,
+    create_staging_corpus,
     load_local_open_articles,
+    promote_staging_corpus,
+    resolve_promoted_corpus,
     split_open_sections,
     store_validated_raw_record,
     validate_and_extract_record,
@@ -197,19 +201,121 @@ def test_raw_storage_is_atomic_idempotent_and_never_overwrites(tmp_path: Path) -
         store_validated_raw_record(article, b"different", raw_directory)
 
 
+def test_transactional_corpus_paths_promote_only_new_complete_staging(
+    tmp_path: Path,
+) -> None:
+    evidence_root = tmp_path / "open_evidence"
+    acquisition_id = "20260909T164500Z"
+
+    staging = create_staging_corpus(evidence_root, acquisition_id)
+    (staging / "PMC5256065.xml").write_bytes(b"invented fixture bytes")
+    promoted = promote_staging_corpus(evidence_root, staging, acquisition_id)
+
+    assert not staging.exists()
+    assert promoted == evidence_root / "corpora" / acquisition_id
+    assert (promoted / "PMC5256065.xml").read_bytes() == b"invented fixture bytes"
+    assert resolve_promoted_corpus(evidence_root, acquisition_id) == promoted
+    with pytest.raises(OpenEvidenceError, match="Staging corpus is missing"):
+        promote_staging_corpus(evidence_root, staging, acquisition_id)
+
+
+@pytest.mark.parametrize("acquisition_id", ("../outside", "bad/id", "plain-text"))
+def test_transactional_corpus_paths_reject_unsafe_acquisition_ids(
+    tmp_path: Path, acquisition_id: str
+) -> None:
+    with pytest.raises(OpenEvidenceError, match="acquisition"):
+        create_staging_corpus(tmp_path / "open_evidence", acquisition_id)
+    with pytest.raises(OpenEvidenceError, match="acquisition"):
+        resolve_promoted_corpus(tmp_path / "open_evidence", acquisition_id)
+
+
+def test_transactional_corpus_paths_reject_symlinked_staging_root(
+    tmp_path: Path,
+) -> None:
+    evidence_root = tmp_path / "open_evidence"
+    staging_root = evidence_root / "staging"
+    outside = tmp_path / "outside"
+    evidence_root.mkdir()
+    outside.mkdir()
+    try:
+        staging_root.symlink_to(outside, target_is_directory=True)
+    except OSError as exc:
+        pytest.skip(f"symlink creation unavailable: {exc}")
+
+    with pytest.raises(OpenEvidenceError, match="symlink"):
+        create_staging_corpus(evidence_root, "20260909T180000Z")
+
+
+def test_promotion_never_overwrites_a_file_collision_created_mid_promotion(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    evidence_root = tmp_path / "open_evidence"
+    acquisition_id = "20260909T181000Z"
+    staging = create_staging_corpus(evidence_root, acquisition_id)
+    source_file = staging / "PMC5256065.xml"
+    source_file.write_bytes(b"staged")
+    original_link = open_ingest.os.link
+
+    def create_collision(source: str | Path, target: str | Path) -> None:
+        Path(target).write_bytes(b"existing")
+        original_link(source, target)
+
+    monkeypatch.setattr(open_ingest.os, "link", create_collision)
+
+    with pytest.raises(OpenEvidenceError, match="collision"):
+        promote_staging_corpus(evidence_root, staging, acquisition_id)
+
+    promoted_file = evidence_root / "corpora" / acquisition_id / source_file.name
+    assert source_file.read_bytes() == b"staged"
+    assert promoted_file.read_bytes() == b"existing"
+
+
 def test_manifest_contains_metadata_but_no_extracted_text(tmp_path: Path) -> None:
     article = validated_article()
     manifest_path = tmp_path / "open_evidence_manifest.json"
 
-    write_sanitized_manifest((article,), manifest_path, source_revision="abc123")
+    write_sanitized_manifest(
+        (article,),
+        manifest_path,
+        source_revision="abc123",
+        acquisition_id="20260909T170000Z",
+    )
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     serialized = json.dumps(manifest)
 
     assert manifest["source_revision"] == "abc123"
+    assert manifest["acquisition_id"] == "20260909T170000Z"
     assert manifest["sources"][0]["pmcid"] == SOURCE.pmcid
     assert manifest["sources"][0]["sha256"] == article.source_sha256
     assert "FICTIONAL_BODY_OVERVIEW" not in serialized
     assert "text" not in manifest["sources"][0]
+
+
+def test_manifest_write_replaces_a_temporary_file_atomically(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    article = validated_article()
+    manifest_path = tmp_path / "open_evidence_manifest.json"
+    replace_calls: list[tuple[Path, Path]] = []
+    original_replace = open_ingest.os.replace
+
+    def capture_replace(source: str | Path, target: str | Path) -> None:
+        replace_calls.append((Path(source), Path(target)))
+        original_replace(source, target)
+
+    monkeypatch.setattr(open_ingest.os, "replace", capture_replace)
+
+    write_sanitized_manifest(
+        (article,),
+        manifest_path,
+        source_revision="abc123",
+        acquisition_id="20260909T180000Z",
+    )
+
+    assert len(replace_calls) == 1
+    assert replace_calls[0][1] == manifest_path
+    assert replace_calls[0][0].parent == manifest_path.parent
+    assert manifest_path.is_file()
 
 
 def test_local_loader_rejects_partial_corpus(tmp_path: Path) -> None:

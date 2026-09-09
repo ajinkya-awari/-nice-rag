@@ -13,6 +13,8 @@ venv/
 data/pdfs/*
 data/chroma_db/*
 data/open_evidence/raw/
+data/open_evidence/staging/
+data/open_evidence/corpora/
 data/open_evidence/**/*.xml
 results/*.json
 results/*.jsonl
