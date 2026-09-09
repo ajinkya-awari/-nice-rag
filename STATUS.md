@@ -6,9 +6,9 @@
 
 **Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `IMPLEMENTED-UNVERIFIED` / `OPEN-EVIDENCE-PARTIAL` / `NICE-CONTENT-BLOCKED`
 
-**Portfolio readiness:** **84%** before current export/GitHub synchronization.
+**Portfolio readiness:** **85%** after public export, release scans, GitHub synchronization, and profile reconciliation.
 
-**Dimension scores:** implementation 90%; tests and validation 98%; runtime/execution 75%; reproducibility/provenance 85%; release readiness 65%. Weighted result: `90×0.30 + 98×0.20 + 75×0.20 + 85×0.15 + 65×0.15 = 84.1%`, rounded to **84%**.
+**Dimension scores:** implementation 90%; tests and validation 98%; runtime/execution 75%; reproducibility/provenance 85%; release readiness 70%. Weighted result: `90×0.30 + 98×0.20 + 75×0.20 + 85×0.15 + 70×0.15 = 84.85%`, rounded to **85%**.
 
 **Confidence:** High for code/tests and the three acquired records; medium for complete PMC reproducibility; low for NICE/model/provider/clinical/deployment claims.
 
@@ -18,6 +18,7 @@
 - Executed locally: complete safe suite through 139 passes at `2026-09-09T16:01:42Z`–`16:01:48Z`; compile exit 0; five synthetic scenarios; five registry entries; bounded 1,000-document/3,200-chunk synthetic smoke with citation validity true.
 - Executed against PMC: two bounded attempts on 2026-09-09. The first stopped before storage. After a tested title-scope fix, the retry validated and locally stored three sources, stopped before storing `PMC4410741`, and did not attempt `PMC9261065`.
 - Evidence: `evidence/open_evidence_acquisition_attempts.json` and ignored `data/open_evidence/raw/`. Exact revisions, UTC times, bytes, and hashes are in the JSON record.
+- Public release evidence: 53-file export with zero hash mismatches, raw files, caches, symlinks, residue, secret, private-path, or public-content leakage; export tests passed 139. GitHub `main` synchronized normally at `a1126c52a16b093c7b8e7c6af88cade058427521`; contributor remains only `ajinkya-awari`. The owner profile entry was reconciled at `21864b5`.
 
 ### Historical only and not verified
 
