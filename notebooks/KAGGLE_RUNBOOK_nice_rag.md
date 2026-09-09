@@ -1,6 +1,6 @@
 # Kaggle runbook — NICE-RAG synthetic gate
 
-This runbook covers only the private, provider-free synthetic kernel `ajinkya1225/19-nice-rag-validation`. It does not authorize NICE documents, model downloads, Chroma, Groq, patient data, live traces, Hugging Face, deployment, or publication.
+This runbook covers only the private, provider-free synthetic kernel `ajinkya1225/nice-rag-synthetic-validation`. It does not authorize NICE documents, model downloads, Chroma, Groq, patient data, live traces, Hugging Face, deployment, or publication.
 
 ## Staging contract
 
@@ -34,16 +34,16 @@ Run exactly once after validating staging:
 
 ```bash
 kaggle kernels list --mine --page-size 1
-kaggle kernels status ajinkya1225/19-nice-rag-validation
+kaggle kernels status ajinkya1225/nice-rag-synthetic-validation
 kaggle kernels push -p <private-staging-folder> -t 1800
 ```
 
-Poll `kaggle kernels status ajinkya1225/19-nice-rag-validation` at short intervals for at most 30 minutes. Stop at `COMPLETE`, `ERROR`, `CANCELLED`, timeout, or missing status. Inspect logs only on failure, make one minimal correction, and retry at most once.
+Poll `kaggle kernels status ajinkya1225/nice-rag-synthetic-validation` at short intervals for at most 30 minutes. Stop at `COMPLETE`, `ERROR`, `CANCELLED`, timeout, or missing status. Inspect logs only on failure, make one minimal correction, and retry at most once.
 
 After `COMPLETE`, download outputs once:
 
 ```bash
-kaggle kernels output ajinkya1225/19-nice-rag-validation -p <private-output-folder>
+kaggle kernels output ajinkya1225/nice-rag-synthetic-validation -p <private-output-folder>
 ```
 
 Accept the synthetic gate only if `nice_rag_synthetic_evidence.json` exists and records:

@@ -53,7 +53,8 @@ def test_kaggle_notebook_fails_closed_and_writes_sanitized_evidence() -> None:
 
     assert "def run_checked" in source
     assert "raise RuntimeError" in source
-    assert "nice_rag_synthetic_evidence.json" in source
+    assert "EVIDENCE_PATH = ROOT / 'nice_rag_synthetic_evidence.json'" in source
+    assert "'kernel': 'ajinkya1225/nice-rag-synthetic-validation'" in source
     assert "json.dump" in source
     for field in (
         "python_version",
