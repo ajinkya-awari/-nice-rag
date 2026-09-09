@@ -1,5 +1,17 @@
 # NICE-RAG status
 
+## 2026-09-10 Kaggle synthetic reconciliation
+
+**Actual kernel:** `ajinkya1225/nice-rag-synthetic-validation` (the previously recorded `19-nice-rag-validation` slug is absent). Version 2 completed on immutable commit `58386eca2beb8dbe523f3f5a8db2773081cdbdd9`: Python 3.12.13/Linux 6.12.90/no GPU/pytest 8.4.2; compile exit 0; **149 passed in 0.98s**; 1,000 synthetic documents/3,200 chunks; five cited results; `max_passages=3`; citation validity true; five scenarios; and no restricted artifacts. Private log evidence: `E:\application\MS CS\portfolio-projects\19-nice-rag-kaggle-private\output-v3\nice-rag-synthetic-validation.log`. The JSON was written but not collected because its destination was outside the collected root.
+
+Version 3 was the single allowed corrective retry. It failed before tests when a depth-2 clone could not resolve the pinned commit (`git checkout` exit 128); private error log: `E:\application\MS CS\portfolio-projects\19-nice-rag-kaggle-private\output-v4-error\nice-rag-synthetic-validation.log`. No additional retry occurred.
+
+**Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `RUNTIME-VERIFIED` / `IMPLEMENTED-UNVERIFIED` / `OPEN-EVIDENCE-PARTIAL` / `NICE-CONTENT-BLOCKED`. **Readiness:** **88%**: implementation 93%, tests 99%, runtime 80%, reproducibility 89%, release readiness 73%; weighted `88.00%`.
+
+**Exactly one next task:** after a fresh retry authorization, fetch the pinned commit directly instead of relying on clone depth, then run one private CPU kernel and require the collected JSON. All NICE/model/provider/patient/deployment gates remain closed.
+
+---
+
 ## 2026-09-09 transactional acquisition implementation
 
 **Audit time:** `2026-09-09T17:27:49Z`-`17:27:55Z`

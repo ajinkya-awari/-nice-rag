@@ -175,7 +175,7 @@ Fresh local evidence from `2026-09-09T16:01:42Z`–`16:01:48Z`: `compileall` exi
 
 ## Private Kaggle validation
 
-The checked-in [notebook](notebooks/kaggle_nice_rag.ipynb) runs in the private kernel `ajinkya1225/19-nice-rag-validation`. Version 1 completed on 2026-09-08 against old-scope commit `a3ea0ef`: Python 3.12.13 on Linux, compile exit 0, 69 tests passed, the bounded smoke retained valid citations and a three-passage maximum, five scenarios remained `gated_no_live_trace`, and the restricted-artifact result was empty. The downloaded evidence JSON has SHA-256 `3f4d21f1f141f02ab76f206a38582f2323c8421fad6946c22c37310898ba6b47`. This is historical execution evidence and does not verify the corrected five-scope tuple.
+The checked-in [notebook](notebooks/kaggle_nice_rag.ipynb) runs in the private kernel `ajinkya1225/nice-rag-synthetic-validation`. Version 2 completed on 2026-09-09 against immutable commit `58386ec`: Python 3.12.13 on Linux, no visible GPU, pytest 8.4.2, compile exit 0, and 149 tests passed; the 1,000-document smoke retained valid citations and a three-passage maximum, five scenarios remained `gated_no_live_trace`, and the restricted-artifact result was empty. Its output log is retained privately. This is provider-free synthetic execution evidence only; it does not verify NICE content, models, providers, clinical behavior, or deployment.
 
 Follow [the Kaggle runbook](notebooks/KAGGLE_RUNBOOK_nice_rag.md). The kernel must remain private, CPU-only, use no attached datasets or models, and stop after the restricted-artifact scan. A `COMPLETE` kernel status is insufficient without inspecting the downloaded evidence file.
 
