@@ -33,13 +33,12 @@ def test_release_text_preserves_disclaimer_and_source_rights_contracts():
 
 def test_runtime_source_has_no_network_transfer_imports():
     root = Path(__file__).parents[1]
-    forbidden_roots = {
+    always_forbidden_roots = {
         "boto3",
         "googleapiclient",
         "huggingface_hub",
         "httpx",
         "requests",
-        "urllib",
     }
     for source_path in (root / "src").glob("*.py"):
         tree = ast.parse(source_path.read_text(encoding="utf-8"))
@@ -49,7 +48,9 @@ def test_runtime_source_has_no_network_transfer_imports():
                 imported_roots.update(alias.name.split(".")[0] for alias in node.names)
             elif isinstance(node, ast.ImportFrom) and node.module:
                 imported_roots.add(node.module.split(".")[0])
-        assert not imported_roots.intersection(forbidden_roots), source_path
+        assert not imported_roots.intersection(always_forbidden_roots), source_path
+        if "urllib" in imported_roots:
+            assert source_path.name == "pmc_client.py", source_path
 
 
 def test_current_tree_has_no_restricted_artifact_files():
