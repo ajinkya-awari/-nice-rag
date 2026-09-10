@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "OPEN-EVIDENCE-VERIFIED",
   "corpus": "pmc_open_evidence",
-  "generated_at_utc": "2026-09-10T06:28:15Z",
+  "generated_at_utc": "2026-09-10T06:28:59Z",
   "source_revision": "8a052783cbe1e257695e7e74581dd965f4c7bd5f",
   "command": "python run.py --validate-open-evidence",
   "python_version": "3.11.9",
