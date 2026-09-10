@@ -1,5 +1,15 @@
 # NICE-RAG status
 
+## 2026-09-10 final synthetic Kaggle evidence
+
+Kaggle version 4 of `ajinkya1225/nice-rag-synthetic-validation` completed after direct immutable-SHA fetch. Private log `E:\application\MS CS\portfolio-projects\19-nice-rag-kaggle-private\output-v4\nice-rag-synthetic-validation.log` records commit `58386eca2beb8dbe523f3f5a8db2773081cdbdd9`, Python 3.12.13, Linux 6.12.90, no GPU, pytest 8.4.2, compile exit 0, 149 tests in 0.94s, 1,000 documents/3,200 chunks, five cited results, a maximum of three passages, valid citations, five scenarios, and zero restricted artifacts. The JSON was printed and written inside the temporary kernel project; the retained private log is the downloaded evidence.
+
+**Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `RUNTIME-VERIFIED` / `IMPLEMENTED-UNVERIFIED` / `OPEN-EVIDENCE-PARTIAL` / `NICE-CONTENT-BLOCKED`. **Readiness:** **88%**: implementation 93%, tests 99%, runtime 80%, reproducibility 89%, release readiness 73%; weighted `88.00%`.
+
+**Exactly one next task:** obtain a separate approval for the next external gate (complete five-record PMC acquisition, NICE rights, models, provider, or deployment); do not rerun the completed synthetic Kaggle gate without a new validation reason.
+
+---
+
 ## 2026-09-10 Kaggle synthetic reconciliation
 
 **Actual kernel:** `ajinkya1225/nice-rag-synthetic-validation` (the previously recorded `19-nice-rag-validation` slug is absent). Version 2 completed on immutable commit `58386eca2beb8dbe523f3f5a8db2773081cdbdd9`: Python 3.12.13/Linux 6.12.90/no GPU/pytest 8.4.2; compile exit 0; **149 passed in 0.98s**; 1,000 synthetic documents/3,200 chunks; five cited results; `max_passages=3`; citation validity true; five scenarios; and no restricted artifacts. Private log evidence: `E:\application\MS CS\portfolio-projects\19-nice-rag-kaggle-private\output-v3\nice-rag-synthetic-validation.log`. The JSON was written but not collected because its destination was outside the collected root.
