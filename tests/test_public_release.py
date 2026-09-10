@@ -71,13 +71,15 @@ def test_public_readme_has_no_private_paths_or_automation_workflow_residue() -> 
     assert not any(term in readme for term in direct_forbidden + workflow_forbidden)
 
 
-def test_readme_separates_open_evidence_from_nice_and_links_failed_attempt() -> None:
+def test_readme_separates_verified_open_evidence_from_nice() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
     assert "`LOCAL-SYNTHETIC-VERIFIED`" in readme
-    assert "`OPEN-EVIDENCE-PARTIAL`" in readme
+    assert "`OPEN-EVIDENCE-VERIFIED`" in readme
     assert "`NICE-CONTENT-BLOCKED`" in readme
     assert "evidence/open_evidence_acquisition_attempts.json" in readme
+    assert "evidence/open_evidence_manifest.json" in readme
+    assert "evidence/open_evidence_validation.json" in readme
     assert "python run.py --list-open-sources" in readme
     assert "python run.py --fetch-open-evidence" in readme
     assert "python run.py --validate-open-evidence" in readme
