@@ -29,8 +29,12 @@ An isolated open-evidence path targets one fixed PubMed Central article for each
 | Layer | Status | Evidence boundary |
 | --- | --- | --- |
 | Implementation | `IMPLEMENTED-UNVERIFIED` for a complete five-record run | Import-safe synthetic and isolated PMC paths, CLI, privacy helpers, and lazy external contracts |
-| Local suite | `LOCAL-SYNTHETIC-VERIFIED` | 139 tests passed after open-evidence hardening and documentation checks on 2026-09-09 |
-| PMC open evidence | `OPEN-EVIDENCE-PARTIAL` | Three of five records validated and were stored only in ignored local evidence; the bounded retry stopped at record four, record five was not attempted, and no five-query report exists |
+| Local suite | `LOCAL-SYNTHETIC-VERIFIED` | 150 tests passed on 2026-09-10; compile and bounded synthetic CPU checks passed |
+| PMC open evidence | `OPEN-EVIDENCE-VERIFIED` | Five fixed CC BY 4.0 PMC records completed the transactional acquisition and five deterministic cited retrieval checks on 2026-09-10 |
+
+### PMC open-evidence completion — 2026-09-10
+
+The isolated PMC corpus is now `OPEN-EVIDENCE-VERIFIED`. A single transactional run validated all five fixed CC BY 4.0 records, promoted the complete ignored private corpus, and completed five deterministic retrieval checks: every result retained valid PMCID/section citations and the three-passage cap. Sanitized acquisition metadata and validation results are versioned in [`evidence/open_evidence_manifest.json`](evidence/open_evidence_manifest.json) and [`evidence/open_evidence_validation.json`](evidence/open_evidence_validation.json). Raw XML and article prose remain private and excluded from Git/export. This is independent PMC evidence only, never NICE content or clinical advice.
 | Kaggle synthetic gate | Historical | Private CPU kernel version 1 completed on 2026-09-08 against old-scope commit `a3ea0ef`; it does not verify the corrected tuple |
 | NICE source scope/rights | `NICE-CONTENT-BLOCKED` | Topic/ID scope corrected locally; NICE AI permission/licensing not obtained |
 | Embeddings, Chroma, Groq | Externally gated | Not run and not implied by synthetic validation |

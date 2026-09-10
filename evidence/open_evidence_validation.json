@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "status": "OPEN-EVIDENCE-VERIFIED",
+  "corpus": "pmc_open_evidence",
+  "generated_at_utc": "2026-09-10T06:28:15Z",
+  "source_revision": "8a052783cbe1e257695e7e74581dd965f4c7bd5f",
+  "command": "python run.py --validate-open-evidence",
+  "python_version": "3.11.9",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "device": "CPU",
+  "gpu_used": false,
+  "source_count": 5,
+  "scenario_count": 5,
+  "repeats": 2,
+  "maximum_passage_count": 3,
+  "all_citations_valid": true,
+  "all_deterministic": true,
+  "queries": [
+    {
+      "topic_key": "type_2_diabetes",
+      "expected_pmcid": "PMC5256065",
+      "citation_prefixes": [
+        "[PMCID: PMC5256065, section: Introduction]",
+        "[PMCID: PMC5256065, section: Introduction]",
+        "[PMCID: PMC5256065, section: Introduction]"
+      ],
+      "passage_count": 3,
+      "citations_valid": true,
+      "deterministic_replay": true
+    },
+    {
+      "topic_key": "pregnancy_hypertension",
+      "expected_pmcid": "PMC7886065",
+      "citation_prefixes": [
+        "[PMCID: PMC7886065, section: Assessing hypertension and proteinuria]",
+        "[PMCID: PMC7886065, section: Long-term complications]",
+        "[PMCID: PMC7886065, section: Long-term complications]"
+      ],
+      "passage_count": 3,
+      "citations_valid": true,
+      "deterministic_replay": true
+    },
+    {
+      "topic_key": "neuropathic_pain",
+      "expected_pmcid": "PMC10741625",
+      "citation_prefixes": [
+        "[PMCID: PMC10741625, section: 1. Introduction]",
+        "[PMCID: PMC10741625, section: 2. Pathophysiological Mechanisms of Chronic NP]",
+        "[PMCID: PMC10741625, section: 2. Pathophysiological Mechanisms of Chronic NP]"
+      ],
+      "passage_count": 3,
+      "citations_valid": true,
+      "deterministic_replay": true
+    },
+    {
+      "topic_key": "adult_sepsis",
+      "expected_pmcid": "PMC4410741",
+      "citation_prefixes": [
+        "[PMCID: PMC4410741, section: How can we improve the recognition of sepsis?]",
+        "[PMCID: PMC4410741, section: How can we improve the recognition of sepsis?]",
+        "[PMCID: PMC4410741, section: Sepsis in pregnancy and the postpartum period]"
+      ],
+      "passage_count": 3,
+      "citations_valid": true,
+      "deterministic_replay": true
+    },
+    {
+      "topic_key": "adult_safeguarding",
+      "expected_pmcid": "PMC9261065",
+      "citation_prefixes": [
+        "[PMCID: PMC9261065, section: Background]",
+        "[PMCID: PMC9261065, section: Data items]",
+        "[PMCID: PMC9261065, section: Types, prevalence, and associated factors of staff-to-resident abuse]"
+      ],
+      "passage_count": 3,
+      "citations_valid": true,
+      "deterministic_replay": true
+    }
+  ],
+  "skipped_gates": [
+    "NICE content acquisition",
+    "embedding model download",
+    "Chroma build",
+    "Groq or other provider execution",
+    "patient data",
+    "deployment"
+  ]
+}

@@ -1,5 +1,13 @@
 # NICE-RAG status
 
+## 2026-09-10 PMC open-evidence completion
+
+One approved transactional PMC OAI run validated and promoted five fixed CC BY 4.0 records (`20260910T062618Z`). `python run.py --validate-open-evidence` exited 0 with `OPEN-EVIDENCE-VERIFIED`: five sources, five scenarios, two deterministic repeats, valid PMCID/section citations, and a three-passage cap. Sanitized evidence: `evidence/open_evidence_manifest.json` and `evidence/open_evidence_validation.json`; raw XML is ignored and private.
+
+This verifies only the isolated PMC research corpus. NICE content, models, Chroma, providers, patient data, clinical safety/performance, and deployment remain unverified and gated.
+
+---
+
 ## 2026-09-10 final synthetic Kaggle evidence
 
 Kaggle version 4 of `ajinkya1225/nice-rag-synthetic-validation` completed after direct immutable-SHA fetch. Private log `E:\application\MS CS\portfolio-projects\19-nice-rag-kaggle-private\output-v4\nice-rag-synthetic-validation.log` records commit `58386eca2beb8dbe523f3f5a8db2773081cdbdd9`, Python 3.12.13, Linux 6.12.90, no GPU, pytest 8.4.2, compile exit 0, 149 tests in 0.94s, 1,000 documents/3,200 chunks, five cited results, a maximum of three passages, valid citations, five scenarios, and zero restricted artifacts. The JSON was printed and written inside the temporary kernel project; the retained private log is the downloaded evidence.
