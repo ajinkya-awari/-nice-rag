@@ -11,7 +11,7 @@ kaggle_nice_rag.ipynb
 kernel-metadata.json
 ```
 
-`kernel-metadata.json` uses the actual notebook filename, keeps the kernel private and CPU-only, enables internet only so the notebook can shallow-clone the reviewed public repository, and declares no dataset, competition, model, or kernel sources.
+`kernel-metadata.json` uses the actual notebook filename, keeps the kernel private and CPU-only, enables internet only so the notebook can fetch the reviewed public commit by its exact SHA, and declares no dataset, competition, model, or kernel sources.
 
 The notebook checks out its literal `EXPECTED_REVISION`, so it never validates mutable GitHub `HEAD`. The provider-free path uses the existing Kaggle `pytest` installation and records that version; it does not install `requirements.txt` or any provider/model/vector/UI dependency.
 

@@ -20,23 +20,12 @@ def _code_sources() -> list[str]:
     ]
 
 
-def test_kaggle_notebook_uses_active_approved_repository_clone() -> None:
-    clone_calls = []
-    for source in _code_sources():
-        tree = ast.parse(source)
-        for node in ast.walk(tree):
-            if not isinstance(node, ast.Call):
-                continue
-            command = ast.get_source_segment(source, node) or ""
-            if "git" in command and "clone" in command:
-                clone_calls.append(command)
+def test_kaggle_notebook_fetches_the_active_approved_repository_by_revision() -> None:
+    source = "\n".join(_code_sources())
 
-    assert len(clone_calls) == 1
-    assert "REPOSITORY" in clone_calls[0]
-    assert (
-        "REPOSITORY = 'https://github.com/ajinkya-awari/-nice-rag.git'"
-        in "\n".join(_code_sources())
-    )
+    assert "REPOSITORY = 'https://github.com/ajinkya-awari/-nice-rag.git'" in source
+    assert "'remote', 'add', 'origin', REPOSITORY" in source
+    assert "'fetch', '--depth', '1', 'origin', EXPECTED_REVISION" in source
 
 
 def test_kaggle_notebook_pins_revision_and_avoids_unused_stack_install() -> None:
@@ -44,6 +33,9 @@ def test_kaggle_notebook_pins_revision_and_avoids_unused_stack_install() -> None
 
     assert "EXPECTED_REVISION = " in source
     assert "source revision does not match EXPECTED_REVISION" in source
+    assert "'fetch', '--depth', '1', 'origin', EXPECTED_REVISION" in source
+    assert "'checkout', '--detach', 'FETCH_HEAD'" in source
+    assert "'clone', '--depth', '2'" not in source
     assert "'pip', 'install'" not in source
     assert "requirements.txt" not in source
 
