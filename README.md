@@ -243,9 +243,11 @@ The open-evidence registry links each article and DOI and records its expected C
 - [x] Fail-closed private Kaggle synthetic-validation workflow
 - [x] User-approved correction of the five guideline/topic scopes
 - [x] Isolated PMC registry, OAI client, JATS validation, provenance, and deterministic citation implementation
-- [x] Three-record partial acquisition with a sanitized failed-attempt record
-- [ ] Newly authorized complete five-record PMC acquisition and five-query validation
+- [x] Transactional five-record PMC acquisition and deterministic cited retrieval validation
 - [ ] NICE AI permission/licence and approved source-provenance record
+
+> **Planned institutional gate:** Following anticipated enrolment at University College London in autumn 2026, the project may seek an institutionally authorised NICE rights/licensing route. No UCL affiliation, sponsorship, consent, or NICE permission is currently claimed.
+
 - [ ] Approved embedding download and persistent Chroma build/read-back
 - [ ] Approved Groq execution and five qualitative traces
 - [ ] Gradio implementation, release review, and separately approved deployment

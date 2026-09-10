@@ -2,7 +2,7 @@
 
 ## Open-evidence boundary — 2026-09-09
 
-The PMC benchmark is a separate local CPU/network gate, not a NICE or provider stage. `--list-open-sources` is offline; `--fetch-open-evidence` contacts only the fixed official PMC OAI endpoint; `--validate-open-evidence` is local-only. The approved attempt and single retry ended partial after three validated records, so no further fetch is authorized by the prior gate. Kaggle is not required to resolve this blocker.
+The PMC benchmark is a separate local CPU/network gate, not a NICE or provider stage. `--list-open-sources` is offline; `--fetch-open-evidence` contacts only the fixed official PMC OAI endpoint; `--validate-open-evidence` is local-only. The approved transactional run completed all five fixed records on 2026-09-10. Sanitized manifest and validation evidence are tracked; raw XML remains private. Kaggle is not required for PMC validation.
 
 Raw PMC XML must remain ignored and private. Only sanitized metadata, hashes, counts, statuses, and citation prefixes may be public. NICE content, models, Chroma, providers, patient data, deployment, and publication remain separate closed gates.
 
@@ -16,7 +16,7 @@ Run [`notebooks/kaggle_nice_rag.ipynb`](notebooks/kaggle_nice_rag.ipynb) through
 
 1. records Python, platform, input, and GPU visibility;
 2. clones the existing NICE-RAG repository and records its revision;
-3. installs `requirements.txt` inside Kaggle;
+3. fetches the reviewed source revision by immutable SHA and records the existing pytest version without installing the production dependency stack;
 4. runs `compileall` and the complete synthetic pytest suite;
 5. runs the 1,000-document CPU smoke and five-scenario listing;
 6. scans for restricted artifacts and writes a sanitized evidence JSON file.

@@ -87,6 +87,13 @@ def test_readme_separates_verified_open_evidence_from_nice() -> None:
     assert "PMC5256065" in readme and "PMC9261065" in readme
 
 
+def test_readme_states_the_future_institutional_gate_without_claiming_affiliation() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+    assert "Following anticipated enrolment at University College London in autumn 2026" in readme
+    assert "No UCL affiliation, sponsorship, consent, or NICE permission is currently claimed." in readme
+
+
 def test_failed_acquisition_evidence_is_sanitized_and_not_a_success_claim() -> None:
     evidence_path = ROOT / "evidence" / "open_evidence_acquisition_attempts.json"
     evidence = evidence_path.read_text(encoding="utf-8")
