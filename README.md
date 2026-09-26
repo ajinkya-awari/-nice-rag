@@ -39,7 +39,7 @@ The project follows a rights-first methodology: the engineering work is complete
 
 ---
 
-## Research Problem
+## Research problem
 
 Retrieval demonstrations can look convincing while losing source identity, provenance, execution bounds, or the distinction between fixture output and live evidence. NICE-RAG makes those boundaries explicit. It preserves source metadata before splitting, limits retrieval to three passages, formats citations deterministically, and refuses to present synthetic fixtures or research articles as medical recommendations or provider evidence.
 
@@ -49,7 +49,7 @@ An isolated open-evidence path targets one fixed PubMed Central article for each
 
 ---
 
-## Verification Status
+## Verification status
 
 | Layer | Status | Evidence boundary |
 | --- | --- | --- |
@@ -219,7 +219,22 @@ Solid arrows: implemented and covered by offline tests. Dashed arrows: blocked o
 
 ---
 
-## Repository Structure
+## How retrieval becomes a citation
+
+1. A document receives one approved `guideline_id` before any split occurs.
+2. Every chunk copies source metadata, including `page`.
+3. Query and passage tokens are scored deterministically.
+4. Results are ordered by score and stable input position.
+5. At most three passages are returned as `[GUIDELINE_ID, p.PAGE] passage`.
+6. Empty, unsupported, or missing-provenance inputs fail clearly.
+
+The synthetic interaction lookup is also deterministic — a fixture boundary, not a medicines reference.
+
+The open-evidence retriever uses a separate `pmc_open_evidence` corpus label and `[PMCID: PMC1234567, section: Section title]` citations. It rejects NICE metadata and cannot be passed into the NICE tool accidentally.
+
+---
+
+## Repository structure
 
 ```text
 src/
@@ -264,7 +279,7 @@ The source modules used by the offline path require only the Python standard lib
 
 ---
 
-## Offline Verification
+## Offline verification
 
 From the repository root:
 
@@ -305,11 +320,11 @@ python run.py --fetch-open-evidence
 python run.py --validate-open-evidence
 ```
 
-The fetch command requires explicit authorization. Validation reads the staged corpus and fails nonzero while the manifest or corpus is incomplete.
+The fetch command requires explicit authorization. Validation reads the staged corpus and fails nonzero while the manifest or corpus is incomplete. The sanitized attempt record is [`evidence/open_evidence_acquisition_attempts.json`](evidence/open_evidence_acquisition_attempts.json).
 
 ---
 
-## Private Kaggle Validation
+## Private Kaggle validation
 
 Notebook: [`notebooks/kaggle_nice_rag.ipynb`](notebooks/kaggle_nice_rag.ipynb) · Runbook: [`notebooks/KAGGLE_RUNBOOK_nice_rag.md`](notebooks/KAGGLE_RUNBOOK_nice_rag.md) · Kernel: [ajinkya1225/nice-rag-synthetic-validation](https://www.kaggle.com/code/ajinkya1225/nice-rag-synthetic-validation)
 
@@ -319,7 +334,7 @@ The kernel must remain private, CPU-only, use no attached datasets or models, an
 
 ---
 
-## Provenance and Citation Contracts
+## Provenance and citation contracts
 
 - The approved synthetic tuple is `NG28`, `NG133`, `CG173`, `NG253`, and `NG189`.
 - The tuple is locally synthetic-verified and Kaggle-runtime-verified; it is not an acquired or clinically validated live corpus.
@@ -360,7 +375,7 @@ For Kaggle: use the checked-in notebook, then retain the downloaded evidence JSO
 
 ---
 
-## Privacy and Security
+## Privacy and security
 
 - Retrieved text is untrusted evidence and cannot override agent constraints.
 - Raw NICE PDFs, PMC XML, credentials, environment files, model caches, Chroma stores, patient data, and unreviewed traces are excluded from Git and public export.
