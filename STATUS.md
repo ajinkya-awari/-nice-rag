@@ -1,4 +1,21 @@
-# NICE-RAG status
+﻿# NICE-RAG status
+
+## 2026-09-26 public synthetic release closeout
+
+**Status: COMPLETE WITH LIMITATIONS — PUBLIC SYNTHETIC RELEASE**
+
+Audit time: `2026-09-26T13:21Z`
+
+Verification results:
+- `python -m compileall src tests` → exit 0
+- `python -m pytest -q` → **151 passed in 2.26s** (Python 3.11.9, win32)
+- `python run.py --cpu-smoke --documents 1000 --repeats 1` → 3,200 chunks, `max_passages=3`, `all_citations_valid=True`
+- Privacy, secret, restricted-artifact, and AI-residue scans: clean
+- GitHub: commit `c2034ff`, sole contributor `ajinkya-awari`
+
+All authorized synthetic and open-evidence work is complete. NICE content, model, provider, patient-data, and deployment gates remain closed and are outside the released scope. No further local action is required or authorized unless a new external gate is explicitly approved.
+
+---
 
 ## 2026-09-10 PMC open-evidence completion
 
@@ -10,7 +27,7 @@ This verifies only the isolated PMC research corpus. NICE content, models, Chrom
 
 ## 2026-09-10 final synthetic Kaggle evidence
 
-Kaggle version 4 of `ajinkya1225/nice-rag-synthetic-validation` completed after direct immutable-SHA fetch. Private log `E:\application\MS CS\portfolio-projects\19-nice-rag-kaggle-private\output-v4\nice-rag-synthetic-validation.log` records commit `58386eca2beb8dbe523f3f5a8db2773081cdbdd9`, Python 3.12.13, Linux 6.12.90, no GPU, pytest 8.4.2, compile exit 0, 149 tests in 0.94s, 1,000 documents/3,200 chunks, five cited results, a maximum of three passages, valid citations, five scenarios, and zero restricted artifacts. The JSON was printed and written inside the temporary kernel project; the retained private log is the downloaded evidence.
+Kaggle version 4 of `ajinkya1225/nice-rag-synthetic-validation` completed after direct immutable-SHA fetch. Private log `E:\application\MS CS\portfolio-projects\19-nice-rag\session\19-nice-rag-kaggle-private\output-v4\nice-rag-synthetic-validation.log` records commit `58386eca2beb8dbe523f3f5a8db2773081cdbdd9`, Python 3.12.13, Linux 6.12.90, no GPU, pytest 8.4.2, compile exit 0, 149 tests in 0.94s, 1,000 documents/3,200 chunks, five cited results, a maximum of three passages, valid citations, five scenarios, and zero restricted artifacts. The JSON was printed and written inside the temporary kernel project; the retained private log is the downloaded evidence.
 
 **Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `RUNTIME-VERIFIED` / `IMPLEMENTED-UNVERIFIED` / `OPEN-EVIDENCE-PARTIAL` / `NICE-CONTENT-BLOCKED`. **Readiness:** **88%**: implementation 93%, tests 99%, runtime 80%, reproducibility 89%, release readiness 73%; weighted `88.00%`.
 
@@ -20,9 +37,9 @@ Kaggle version 4 of `ajinkya1225/nice-rag-synthetic-validation` completed after 
 
 ## 2026-09-10 Kaggle synthetic reconciliation
 
-**Actual kernel:** `ajinkya1225/nice-rag-synthetic-validation` (the previously recorded `19-nice-rag-validation` slug is absent). Version 2 completed on immutable commit `58386eca2beb8dbe523f3f5a8db2773081cdbdd9`: Python 3.12.13/Linux 6.12.90/no GPU/pytest 8.4.2; compile exit 0; **149 passed in 0.98s**; 1,000 synthetic documents/3,200 chunks; five cited results; `max_passages=3`; citation validity true; five scenarios; and no restricted artifacts. Private log evidence: `E:\application\MS CS\portfolio-projects\19-nice-rag-kaggle-private\output-v3\nice-rag-synthetic-validation.log`. The JSON was written but not collected because its destination was outside the collected root.
+**Actual kernel:** `ajinkya1225/nice-rag-synthetic-validation` (the previously recorded `19-nice-rag-validation` slug is absent). Version 2 completed on immutable commit `58386eca2beb8dbe523f3f5a8db2773081cdbdd9`: Python 3.12.13/Linux 6.12.90/no GPU/pytest 8.4.2; compile exit 0; **149 passed in 0.98s**; 1,000 synthetic documents/3,200 chunks; five cited results; `max_passages=3`; citation validity true; five scenarios; and no restricted artifacts. Private log evidence: `E:\application\MS CS\portfolio-projects\19-nice-rag\session\19-nice-rag-kaggle-private\output-v3\nice-rag-synthetic-validation.log`. The JSON was written but not collected because its destination was outside the collected root.
 
-Version 3 was the single allowed corrective retry. It failed before tests when a depth-2 clone could not resolve the pinned commit (`git checkout` exit 128); private error log: `E:\application\MS CS\portfolio-projects\19-nice-rag-kaggle-private\output-v4-error\nice-rag-synthetic-validation.log`. No additional retry occurred.
+Version 3 was the single allowed corrective retry. It failed before tests when a depth-2 clone could not resolve the pinned commit (`git checkout` exit 128); private error log: `E:\application\MS CS\portfolio-projects\19-nice-rag\session\19-nice-rag-kaggle-private\output-v4-error\nice-rag-synthetic-validation.log`. No additional retry occurred.
 
 **Current status:** `LOCAL-SYNTHETIC-VERIFIED` / `RUNTIME-VERIFIED` / `IMPLEMENTED-UNVERIFIED` / `OPEN-EVIDENCE-PARTIAL` / `NICE-CONTENT-BLOCKED`. **Readiness:** **88%**: implementation 93%, tests 99%, runtime 80%, reproducibility 89%, release readiness 73%; weighted `88.00%`.
 

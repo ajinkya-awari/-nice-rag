@@ -3,7 +3,7 @@
 <div align="center">
 
 [![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue?logo=python&logoColor=white)](https://python.org)
-[![Tests](https://img.shields.io/badge/tests-150%20passing-brightgreen?logo=pytest&logoColor=white)](tests/)
+[![Tests](https://img.shields.io/badge/tests-151%20passing-brightgreen?logo=pytest&logoColor=white)](tests/)
 [![Kaggle](https://img.shields.io/badge/kaggle-V4%20complete-20BEFF?logo=kaggle&logoColor=white)](https://www.kaggle.com/code/ajinkya1225/nice-rag-synthetic-validation)
 [![Synthetic](https://img.shields.io/badge/synthetic-LOCAL%20%2B%20KAGGLE%20verified-2dd4bf)](tests/)
 [![Open Evidence](https://img.shields.io/badge/PMC%20open%20evidence-5%20CC%20BY%204.0%20records-F97316)](evidence/open_evidence_manifest.json)
@@ -15,8 +15,11 @@
 
 </div>
 
+> **Status: COMPLETE WITH LIMITATIONS — PUBLIC SYNTHETIC RELEASE**
+> This release demonstrates a reproducible synthetic NICE-RAG engineering workflow; clinical deployment and provider-backed evaluation are outside the released scope.
+
 > [!CAUTION]
-> NICE-RAG provides research information only. It is not clinical decision support, a medical device, or a substitute for qualified professional advice.
+> NICE-RAG provides research information only. It is not clinical decision support, not a medical device, and not a substitute for qualified professional advice.
 
 > [!IMPORTANT]
 > This repository contains no NICE source content. Its PMC benchmark uses separately identified open-access research articles that are not NICE guidance. NICE's open-content licence does not cover AI use; NICE permission/licensing is still required before NICE content acquisition or RAG processing.
@@ -51,18 +54,18 @@ An isolated open-evidence path targets one fixed PubMed Central article for each
 
 ## Verification status
 
-| Layer | Status | Evidence boundary |
+| Layer | Status | Evidence |
 | --- | --- | --- |
-| Implementation | `IMPLEMENTED` — 13 source modules, CLI, contracts | Synthetic + PMC paths, lazy external contracts |
-| Local synthetic suite | `LOCAL-SYNTHETIC-VERIFIED` | 150 tests passed, 2026-09-10; compile + bounded CPU checks |
-| Kaggle synthetic gate | `RUNTIME-VERIFIED` | V4 complete, 2026-09-10, commit `58386ec`; 149 tests, Python 3.12.13 |
-| PMC open evidence | `OPEN-EVIDENCE-VERIFIED` | 5 CC BY 4.0 records acquired and validated, 2026-09-10 |
-| NICE source scope/rights | `NICE-CONTENT-BLOCKED` | Topic/ID scope corrected; NICE AI permission/licensing not obtained |
-| Embeddings · Chroma · Groq | Externally gated | Not run; not implied by synthetic validation |
-| Gradio / Hugging Face | Not implemented | Separate design, privacy, and deployment approval required |
+| Implementation | ✅ `COMPLETE` — 13 source modules, CLI, contracts | Synthetic + PMC paths, lazy external contracts |
+| Local synthetic suite | ✅ `LOCAL-SYNTHETIC-VERIFIED` | **151 tests** passed, 2026-09-26; compile exit 0 |
+| Kaggle synthetic gate | ✅ `RUNTIME-VERIFIED` | V4 complete, 2026-09-10, commit `58386ec`; 149 tests, Python 3.12.13 |
+| PMC open evidence | ✅ `OPEN-EVIDENCE-VERIFIED` | 5 CC BY 4.0 records acquired and validated, 2026-09-10 |
+| GitHub repository | ✅ `SYNCHRONIZED` | Commit `c2034ff`, sole contributor `ajinkya-awari` |
+| NICE source/rights | `NICE-CONTENT-BLOCKED` | NICE AI permission/licensing not obtained — outside released scope |
+| Embeddings · Chroma · Groq · Gradio | `IMPLEMENTED-UNVERIFIED` | Externally gated; not implied by synthetic validation |
 
-**Portfolio readiness: 88%**  
-`implementation 93% · tests 99% · runtime 80% · reproducibility 89% · release readiness 73%`
+**Release status: COMPLETE WITH LIMITATIONS — PUBLIC SYNTHETIC RELEASE**  
+`implementation 93% · tests 99% · runtime 80% · reproducibility 89% · release readiness 73%` — **88% overall**
 
 ---
 
@@ -388,15 +391,13 @@ For Kaggle: use the checked-in notebook, then retain the downloaded evidence JSO
 
 ## Limitations
 
+This release demonstrates a reproducible synthetic NICE-RAG engineering workflow; clinical deployment and provider-backed evaluation are outside the released scope.
+
 - Synthetic lexical retrieval does not establish performance on NICE documents.
-- PMC open evidence is verified for five research articles; the sources are not guidance and their retrieval does not establish clinical correctness.
-- The corrected five-scope tuple has not been validated against NICE content; NICE AI permission/licensing has not been obtained.
-- Package installation does not verify PDF extraction, embedding quality, Chroma persistence, or Groq behavior.
-- The five scenarios contain no live answers or qualitative provider traces.
-- No Gradio application or Hugging Face deployment is included.
+- PMC open evidence covers five research articles; they are not NICE guidance and their retrieval does not establish clinical correctness.
 - No clinical accuracy, safety, efficacy, or regulatory claim is made.
-- No software `LICENSE` file has been approved; absent an explicit license, reuse rights are not granted by this repository.
-- The Kaggle kernel evidence is synthetic only; it does not verify NICE content, models, providers, clinical behavior, or deployment.
+- No software `LICENSE` file has been approved; absent an explicit licence, reuse rights are not granted by this repository.
+- NICE AI permission/licensing has not been obtained; NICE source acquisition and processing remain prohibited.
 
 ---
 
